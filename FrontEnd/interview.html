@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Placement Training Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+ <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --primary: #4f46e5;
+    --primary-dark: #4338ca;
+    --primary-light: #c7d2fe;
+    --secondary: #f9fafb;
+    --text: #111827;
+    --text-light: #6b7280;
+    --border: #e5e7eb;
+    --success: #10b981;
+    --success-light: #d1fae5;
+    --error: #ef4444;
+    --error-light: #fee2e2;
+    --radius: 14px;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 16px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 60px auto;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(14px);
+    padding: 48px 56px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(229, 231, 235, 0.8);
+  }
+
+  h2 {
+    color: var(--primary-dark);
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 2.25em;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 20px;
+    border-left: 5px solid var(--primary);
+    padding-left: 14px;
+  }
+
+  .checklist, .questions {
+    background: #f1f5f9;
+    padding: 28px;
+    border-radius: var(--radius);
+    margin-bottom: 36px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+  }
+
+  .checklist label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 1.05em;
+    gap: 12px;
+    cursor: pointer;
+    color: var(--text);
+    transition: 0.2s ease;
+  }
+
+  .checklist input[type="checkbox"] {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+    position: relative;
+    cursor: pointer;
+    background: white;
+    transition: 0.25s ease;
+  }
+
+  .checklist input[type="checkbox"]:checked {
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+
+  .checklist input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    position: absolute;
+    left: 5px;
+    top: 1px;
+  }
+
+  .checklist label:hover {
+    color: var(--primary-dark);
+  }
+
+  .question-block {
+    margin-bottom: 26px;
+  }
+
+  .question-block label {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    resize: vertical;
+    font-family: inherit;
+    background: #f9fafb;
+    transition: 0.2s ease;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    background: #fff;
+  }
+
+  button {
+    background: linear-gradient(to right, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 16px 44px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: 0.3s ease;
+    display: block;
+    margin: 0 auto;
+  }
+
+  button:hover {
+    background: linear-gradient(to right, var(--primary-dark), #1e3a8a);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .result {
+    margin-top: 32px;
+    padding: 24px 28px;
+    border-radius: var(--radius);
+    font-size: 1.05em;
+    display: none;
+    white-space: pre-line;
+  }
+
+  .result:not(.error) {
+    background: var(--success-light);
+    color: #065f46;
+    border: 2px solid var(--success);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .result.error {
+    background: var(--error-light);
+    color: #991b1b;
+    border: 2px solid var(--error);
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      max-width: 92vw;
+      padding: 32px 20px;
+    }
+
+    h2 {
+      font-size: 1.8em;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 1.6em;
+    }
+
+    h3 {
+      font-size: 1.1em;
+    }
+  }
+</style>
+
+</head>
+<body>
+  
+
+
+  <div class="container">
+    <h2>Placement Training Progress Tracker</h2>
+    <form id="placementForm">
+      <div class="checklist">
+        <h3>Checklist</h3>
+        <label><input type="checkbox" name="checklist" value="Resume Preparation"> Resume Preparation</label>
+        <label><input type="checkbox" name="checklist" value="Mock Interviews"> Mock Interviews</label>
+        <label><input type="checkbox" name="checklist" value="Technical Skills Practice"> Technical Skills Practice</label>
+        <label><input type="checkbox" name="checklist" value="Soft Skills Training"> Soft Skills Training</label>
+        <label><input type="checkbox" name="checklist" value="Company Research"> Company Research</label>
+      </div>
+      <div class="questions">
+        <h3>Basic Interview Questions (Sample Domains)</h3>
+        <div class="question-block">
+          <label for="q1">1. Programming (OOP): What are the four pillars of Object-Oriented Programming?</label>
+          <textarea id="q1" name="q1" placeholder="Your answer..."></textarea>
+        </div>
+        <div class="question-block">
+          <label for="q2">2. Web Development: What is a RESTful API?</label>
+          <textarea id="q2" name="q2" placeholder="Your answer..."></textarea>
+        </div>
+        <div class="question-block">
+          <label for="q3">3. Databases: Explain the difference between SQL and NoSQL databases.</label>
+          <textarea id="q3" name="q3" placeholder="Your answer..."></textarea>
+        </div>
+        <div class="question-block">
+          <label for="q4">4. Data Structures: What is a linked list and where is it used?</label>
+          <textarea id="q4" name="q4" placeholder="Your answer..."></textarea>
+        </div>
+        <div class="question-block">
+          <label for="q5">5. Aptitude: If a train travels 60 km in 1 hour and 30 minutes, what is its average speed?</label>
+          <textarea id="q5" name="q5" placeholder="Your answer..."></textarea>
+        </div>
+      </div>
+      <button type="submit">Submit Progress</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  
+  <script>
+
+
+    document.getElementById('placementForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = localStorage.getItem('userEmail');
+      if (!email) {
+        alert('User not logged in. Please log in first.');
+        return;
+      }
+      const checklist = [];
+      document.querySelectorAll('input[name="checklist"]:checked').forEach(cb => {
+        checklist.push(cb.value);
+      });
+      const answers = [];
+      for (let i = 1; i <= 5; i++) {
+        const answer = document.getElementById('q' + i).value.trim();
+        answers.push(answer);
+      }
+      const data = { email, checklist, answers };
+      fetch('http://127.0.0.1:3000/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(async (response) => {
+        if (!response.ok) {
+          const contentType = response.headers.get('content-type');
+          const errorData = contentType && contentType.includes('application/json')
+            ? await response.json()
+            : await response.text();
+          throw new Error(errorData.error || errorData);
+        }
+        return response.json();
+      })
+      .then(data => {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `<strong>✅ Submission Successful!</strong><br>${data.message}`;
+        resultDiv.className = 'result';
+        resultDiv.style.display = 'block';
+        window.scrollTo({ top: resultDiv.offsetTop, behavior: 'smooth' });
+      })
+      .catch(error => {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `<strong>❌ Error submitting form:</strong> ${error.message}`;
+        resultDiv.className = 'result error';
+        resultDiv.style.display = 'block';
+        console.error('Submission error:', error);
+      });
+    });
+  </script>
+</body>
+</html>

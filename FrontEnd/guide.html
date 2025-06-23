@@ -1,0 +1,652 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GradTrack - Implementation Guide</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    .main-content {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      margin: 20px 0;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-brand img {
+      height: 40px;
+      margin-right: 10px;
+    }
+    
+    .difficulty-badge {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    
+    .difficulty-beginner { background: #d4edda; color: #155724; }
+    .difficulty-intermediate { background: #fff3cd; color: #856404; }
+    .difficulty-advanced { background: #f8d7da; color: #721c24; }
+    
+    .guide-card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      background: white;
+      overflow: hidden;
+    }
+    
+    .guide-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-header {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 20px;
+    }
+    
+    .project-icon {
+      font-size: 2rem;
+      margin-right: 15px;
+      opacity: 0.9;
+    }
+    
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 15px 0;
+    }
+    
+    .tech-badge {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    .step-list {
+      counter-reset: step-counter;
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .step-list li {
+      counter-increment: step-counter;
+      margin: 15px 0;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
+      position: relative;
+    }
+    
+    .step-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #667eea;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    
+    .resource-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .btn-custom {
+      border-radius: 25px;
+      padding: 8px 20px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-view {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border: none;
+      color: white;
+    }
+    
+    .btn-view:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      color: white;
+    }
+    
+    .filter-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      padding: 10px 25px;
+      border: 2px solid #667eea;
+      background: transparent;
+      color: #667eea;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .footer-link {
+      color: #ffffffb3;
+      text-decoration: none;
+    }
+    
+    .footer-link:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+    
+    footer {
+      margin-top: 50px;
+      padding: 20px 0;
+      background-color: #212529;
+      text-align: center;
+      color: #fff;
+      font-size: 0.95rem;
+    }
+    
+    .learning-path {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      margin: 30px 0;
+      text-align: center;
+    }
+    
+    @media (max-width: 768px) {
+      .main-content {
+        margin: 10px;
+        padding: 20px;
+      }
+      
+      .filter-buttons {
+        gap: 10px;
+      }
+      
+      .filter-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Responsive GradTrack Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark py-3" style="background-color: #2c3e50;">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="index1.html">
+      <div class="rounded-circle bg-light p-2 me-2">
+        <i class="fas fa-graduation-cap text-primary"></i>
+      </div>
+      <span class="fw-bold fs-4 text-white">GradTrack</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fs-6">
+        <li class="nav-item">
+          <a class="nav-link text-light px-3" href="index1.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light px-3" href="quiz.html">Quiz</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light px-3" href="jobs.html">Jobs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-warning px-3 fw-semibold" href="guide.html">Guide</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light px-3" href="interview.html">Placement</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light px-3" href="res.html">Resources</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light px-3" href="connect.html">Connect</a>
+        </li>
+      </ul>
+      <div class="d-flex gap-2" id="navbarAuth">
+        <a href="profile.html" class="btn btn-outline-light btn-sm px-3">
+          <i class="fas fa-user me-1"></i>Profile
+        </a>
+        <button class="btn btn-danger btn-sm px-3" id="logoutBtn">
+          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="main-content">
+    <div class="text-center mb-5">
+      <h1 class="fw-bold" style="color: #667eea;">🚀 Implementation Guide</h1>
+      <p class="text-muted fs-5">Master programming through hands-on projects with step-by-step guidance</p>
+    </div>
+
+    <!-- Learning Path Section -->
+    <div class="learning-path">
+      <h3><i class="fas fa-route me-2"></i>Recommended Learning Path</h3>
+      <p class="mb-3">Follow this progression to build your skills systematically</p>
+      <div class="d-flex justify-content-center flex-wrap gap-3">
+        <span class="badge bg-light text-dark px-3 py-2">Beginner Projects</span>
+        <i class="fas fa-arrow-right align-self-center text-light"></i>
+        <span class="badge bg-light text-dark px-3 py-2">Intermediate Challenges</span>
+        <i class="fas fa-arrow-right align-self-center text-light"></i>
+        <span class="badge bg-light text-dark px-3 py-2">Advanced Applications</span>
+      </div>
+    </div>
+
+    
+
+    <!-- Project Cards Container -->
+    <div id="projectsContainer">
+
+      <!-- Beginner Projects -->
+      <div class="card guide-card mb-4 project-card" data-difficulty="beginner">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-tasks project-icon"></i>
+            <div>
+              <h5 class="mb-1">To-Do List Application</h5>
+              <span class="difficulty-badge difficulty-beginner">Beginner</span>
+            </div>
+          </div>
+          <i class="fas fa-clock" title="2-3 hours"></i>
+        </div>
+        <div class="card-body">
+          <p class="text-secondary">Build your first interactive web application to manage daily tasks with local storage.</p>
+          <div class="tech-stack">
+            <span class="tech-badge">HTML5</span>
+            <span class="tech-badge">CSS3</span>
+            <span class="tech-badge">JavaScript</span>
+            <span class="tech-badge">Local Storage</span>
+          </div>
+          <button class="btn btn-view btn-custom" type="button" data-bs-toggle="collapse" data-bs-target="#guide1">
+            <i class="fas fa-eye me-2"></i>View Implementation
+          </button>
+          <div id="guide1" class="collapse mt-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-list-ul me-2"></i>Implementation Steps:</h6>
+            <ol class="step-list">
+              <li><strong>Setup Structure:</strong> Create HTML with input field, add button, and task container</li>
+              <li><strong>Style Interface:</strong> Add CSS for responsive design, animations, and task states</li>
+              <li><strong>Add Functionality:</strong> Implement add, delete, edit, and mark complete features</li>
+              <li><strong>Local Storage:</strong> Save tasks to browser storage for persistence</li>
+              <li><strong>Enhancements:</strong> Add filters (all, active, completed) and task counter</li>
+            </ol>
+            <div class="resource-links">
+              <a href="https://www.w3schools.com/howto/howto_js_todolist.asp" class="btn btn-success btn-sm btn-custom" target="_blank">
+                <i class="fas fa-external-link-alt me-1"></i>Tutorial
+              </a>
+              <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage" class="btn btn-info btn-sm btn-custom" target="_blank">
+                <i class="fas fa-book me-1"></i>LocalStorage Docs
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal Portfolio -->
+      <div class="card guide-card mb-4 project-card" data-difficulty="beginner">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-user project-icon"></i>
+            <div>
+              <h5 class="mb-1">Personal Portfolio Website</h5>
+              <span class="difficulty-badge difficulty-beginner">Beginner</span>
+            </div>
+          </div>
+          <i class="fas fa-clock" title="4-6 hours"></i>
+        </div>
+        <div class="card-body">
+          <p class="text-secondary">Create a professional portfolio to showcase your skills, projects, and achievements.</p>
+          <div class="tech-stack">
+            <span class="tech-badge">HTML5</span>
+            <span class="tech-badge">CSS3</span>
+            <span class="tech-badge">JavaScript</span>
+            <span class="tech-badge">Responsive Design</span>
+          </div>
+          <button class="btn btn-view btn-custom" type="button" data-bs-toggle="collapse" data-bs-target="#guide2">
+            <i class="fas fa-eye me-2"></i>View Implementation
+          </button>
+          <div id="guide2" class="collapse mt-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-list-ul me-2"></i>Implementation Steps:</h6>
+            <ol class="step-list">
+              <li><strong>Plan Layout:</strong> Design sections for Header, About, Skills, Projects, and Contact</li>
+              <li><strong>Build Structure:</strong> Create semantic HTML with proper navigation</li>
+              <li><strong>Style with CSS:</strong> Use Flexbox/Grid for responsive layout and modern design</li>
+              <li><strong>Add Interactivity:</strong> Implement smooth scrolling, animations, and form validation</li>
+              <li><strong>Deploy Online:</strong> Use GitHub Pages, Netlify, or Vercel for hosting</li>
+            </ol>
+            <div class="resource-links">
+              <a href="https://www.freecodecamp.org/news/build-a-personal-website-with-html-css-javascript/" class="btn btn-success btn-sm btn-custom" target="_blank">
+                <i class="fas fa-external-link-alt me-1"></i>Complete Guide
+              </a>
+              <a href="https://pages.github.com/" class="btn btn-info btn-sm btn-custom" target="_blank">
+                <i class="fab fa-github me-1"></i>GitHub Pages
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calculator App -->
+      <div class="card guide-card mb-4 project-card" data-difficulty="beginner">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-calculator project-icon"></i>
+            <div>
+              <h5 class="mb-1">Calculator Application</h5>
+              <span class="difficulty-badge difficulty-beginner">Beginner</span>
+            </div>
+          </div>
+          <i class="fas fa-clock" title="3-4 hours"></i>
+        </div>
+        <div class="card-body">
+          <p class="text-secondary">Build a functional calculator with basic arithmetic operations and memory functions.</p>
+          <div class="tech-stack">
+            <span class="tech-badge">HTML5</span>
+            <span class="tech-badge">CSS3</span>
+            <span class="tech-badge">JavaScript</span>
+            <span class="tech-badge">DOM Manipulation</span>
+          </div>
+          <button class="btn btn-view btn-custom" type="button" data-bs-toggle="collapse" data-bs-target="#guide3">
+            <i class="fas fa-eye me-2"></i>View Implementation
+          </button>
+          <div id="guide3" class="collapse mt-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-list-ul me-2"></i>Implementation Steps:</h6>
+            <ol class="step-list">
+              <li><strong>Design Layout:</strong> Create button grid with display screen</li>
+              <li><strong>Style Interface:</strong> Add modern calculator appearance with hover effects</li>
+              <li><strong>Basic Operations:</strong> Implement +, -, ×, ÷ functions</li>
+              <li><strong>Advanced Features:</strong> Add decimal points, clear functions, and error handling</li>
+              <li><strong>Keyboard Support:</strong> Enable keyboard input for better user experience</li>
+            </ol>
+            <div class="resource-links">
+              <a href="https://www.freecodecamp.org/news/how-to-build-an-html-calculator-app/" class="btn btn-success btn-sm btn-custom" target="_blank">
+                <i class="fas fa-external-link-alt me-1"></i>Build Guide
+              </a>
+              <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent" class="btn btn-info btn-sm btn-custom" target="_blank">
+                <i class="fas fa-keyboard me-1"></i>Keyboard Events
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weather App -->
+      <div class="card guide-card mb-4 project-card" data-difficulty="intermediate">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-cloud-sun project-icon"></i>
+            <div>
+              <h5 class="mb-1">Weather Dashboard</h5>
+              <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+            </div>
+          </div>
+          <i class="fas fa-clock" title="6-8 hours"></i>
+        </div>
+        <div class="card-body">
+          <p class="text-secondary">Create a weather app that fetches real-time data from APIs with location services.</p>
+          <div class="tech-stack">
+            <span class="tech-badge">HTML5</span>
+            <span class="tech-badge">CSS3</span>
+            <span class="tech-badge">JavaScript</span>
+            <span class="tech-badge">API Integration</span>
+            <span class="tech-badge">Geolocation</span>
+          </div>
+          <button class="btn btn-view btn-custom" type="button" data-bs-toggle="collapse" data-bs-target="#guide4">
+            <i class="fas fa-eye me-2"></i>View Implementation
+          </button>
+          <div id="guide4" class="collapse mt-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-list-ul me-2"></i>Implementation Steps:</h6>
+            <ol class="step-list">
+              <li><strong>API Setup:</strong> Get API key from OpenWeatherMap and understand endpoints</li>
+              <li><strong>Build Interface:</strong> Create search functionality and weather display cards</li>
+              <li><strong>Fetch Data:</strong> Implement API calls using fetch() and handle responses</li>
+              <li><strong>Location Services:</strong> Add geolocation API for current location weather</li>
+              <li><strong>Error Handling:</strong> Manage network errors, invalid cities, and loading states</li>
+              <li><strong>Enhancements:</strong> Add 5-day forecast, weather icons, and favorites</li>
+            </ol>
+            <div class="resource-links">
+              <a href="https://openweathermap.org/api" class="btn btn-success btn-sm btn-custom" target="_blank">
+                <i class="fas fa-cloud me-1"></i>Weather API
+              </a>
+              <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" class="btn btn-info btn-sm btn-custom" target="_blank">
+                <i class="fas fa-code me-1"></i>Fetch API Docs
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz App -->
+      <div class="card guide-card mb-4 project-card" data-difficulty="intermediate">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-question-circle project-icon"></i>
+            <div>
+              <h5 class="mb-1">Interactive Quiz Application</h5>
+              <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+            </div>
+          </div>
+          <i class="fas fa-clock" title="5-7 hours"></i>
+        </div>
+        <div class="card-body">
+          <p class="text-secondary">Develop a dynamic quiz app with multiple question types, scoring, and progress tracking.</p>
+          <div class="tech-stack">
+            <span class="tech-badge">HTML5</span>
+            <span class="tech-badge">CSS3</span>
+            <span class="tech-badge">JavaScript</span>
+            <span class="tech-badge">JSON</span>
+            <span class="tech-badge">Local Storage</span>
+          </div>
+          <button class="btn btn-view btn-custom" type="button" data-bs-toggle="collapse" data-bs-target="#guide5">
+            <i class="fas fa-eye me-2"></i>View Implementation
+          </button>
+          <div id="guide5" class="collapse mt-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-list-ul me-2"></i>Implementation Steps:</h6>
+            <ol class="step-list">
+              <li><strong>Data Structure:</strong> Create JSON file with questions, options, and correct answers</li>
+              <li><strong>Quiz Logic:</strong> Implement question navigation, answer validation, and scoring</li>
+              <li><strong>UI Components:</strong> Build progress bar, timer, and results display</li>
+              <li><strong>User Experience:</strong> Add animations, feedback, and score breakdown</li>
+              <li><strong>Advanced Features:</strong> Implement different question types and difficulty levels</li>
+            </ol>
+            <div class="resource-links">
+              <a href="https://www.freecodecamp.org/news/how-to-make-a-quiz-app-using-javascript/" class="btn btn-success btn-sm btn-custom" target="_blank">
+                <i class="fas fa-external-link-alt me-1"></i>Quiz Tutorial
+              </a>
+              <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON" class="btn btn-info btn-sm btn-custom" target="_blank">
+                <i class="fas fa-file-code me-1"></i>JSON Guide
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Application -->
+      <div class="card guide-card mb-4 project-card" data-difficulty="advanced">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-comments project-icon"></i>
+            <div>
+              <h5 class="mb-1">Real-time Chat Application</h5>
+              <span class="difficulty-badge difficulty-advanced">Advanced</span>
+            </div>
+          </div>
+          <i class="fas fa-clock" title="12-16 hours"></i>
+        </div>
+        <div class="card-body">
+          <p class="text-secondary">Build a full-stack chat application with real-time messaging, user authentication, and rooms.</p>
+          <div class="tech-stack">
+            <span class="tech-badge">Node.js</span>
+            <span class="tech-badge">Socket.io</span>
+            <span class="tech-badge">Express.js</span>
+            <span class="tech-badge">MongoDB</span>
+            <span class="tech-badge">JWT</span>
+          </div>
+          <button class="btn btn-view btn-custom" type="button" data-bs-toggle="collapse" data-bs-target="#guide6">
+            <i class="fas fa-eye me-2"></i>View Implementation
+          </button>
+          <div id="guide6" class="collapse mt-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-list-ul me-2"></i>Implementation Steps:</h6>
+            <ol class="step-list">
+              <li><strong>Server Setup:</strong> Initialize Node.js project with Express and Socket.io</li>
+              <li><strong>Database Design:</strong> Set up MongoDB for users, messages, and chat rooms</li>
+              <li><strong>Authentication:</strong> Implement JWT-based user registration and login</li>
+              <li><strong>Real-time Features:</strong> Add Socket.io for instant messaging and typing indicators</li>
+              <li><strong>Chat Rooms:</strong> Create public/private rooms with user management</li>
+              <li><strong>Frontend:</strong> Build responsive chat interface with message history</li>
+              <li><strong>Deployment:</strong> Deploy to platforms like Heroku or Railway</li>
+            </ol>
+            <div class="resource-links">
+              <a href="https://socket.io/get-started/chat" class="btn btn-success btn-sm btn-custom" target="_blank">
+                <i class="fas fa-rocket me-1"></i>Socket.io Tutorial
+              </a>
+              <a href="https://nodejs.org/en/docs/" class="btn btn-info btn-sm btn-custom" target="_blank">
+                <i class="fab fa-node-js me-1"></i>Node.js Docs
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E-commerce Platform -->
+      <div class="card guide-card mb-4 project-card" data-difficulty="advanced">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-shopping-cart project-icon"></i>
+            <div>
+              <h5 class="mb-1">E-commerce Platform</h5>
+              <span class="difficulty-badge difficulty-advanced">Advanced</span>
+            </div>
+          </div>
+          <i class="fas fa-clock" title="20-30 hours"></i>
+        </div>
+        <div class="card-body">
+          <p class="text-secondary">Develop a complete e-commerce solution with product management, payments, and admin dashboard.</p>
+          <div class="tech-stack">
+            <span class="tech-badge">React.js</span>
+            <span class="tech-badge">Node.js</span>
+            <span class="tech-badge">MongoDB</span>
+            <span class="tech-badge">Stripe API</span>
+            <span class="tech-badge">Redux</span>
+          </div>
+          <button class="btn btn-view btn-custom" type="button" data-bs-toggle="collapse" data-bs-target="#guide7">
+            <i class="fas fa-eye me-2"></i>View Implementation
+          </button>
+          <div id="guide7" class="collapse mt-4">
+            <h6 class="fw-bold mb-3"><i class="fas fa-list-ul me-2"></i>Implementation Steps:</h6>
+            <ol class="step-list">
+              <li><strong>Project Architecture:</strong> Set up MERN stack with proper folder structure</li>
+              <li><strong>Database Schema:</strong> Design models for products, users, orders, and reviews</li>
+              <li><strong>Authentication System:</strong> Implement JWT with role-based access control</li>
+              <li><strong>Product Management:</strong> Create CRUD operations for products with image upload</li>
+              <li><strong>Shopping Cart:</strong> Build cart functionality with Redux state management</li>
+              <li><strong>Payment Integration:</strong> Integrate Stripe for secure payment processing</li>
+              <li><strong>Admin Dashboard:</strong> Create admin panel for order and inventory management</li>
+              <li><strong>Testing & Deployment:</strong> Add unit tests and deploy to production</li>
+            </ol>
+            <div class="resource-links">
+              <a href="https://stripe.com/docs" class="btn btn-success btn-sm btn-custom" target="_blank">
+                <i class="fas fa-credit-card me-1"></i>Stripe Docs
+              </a>
+              <a href="https://reactjs.org/docs/getting-started.html" class="btn btn-info btn-sm btn-custom" target="_blank">
+                <i class="fab fa-react me-1"></i>React Guide
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tips Section -->
+    <div class="learning-path mt-5">
+      <h3><i class="fas fa-lightbulb me-2"></i>Pro Tips for Success</h3>
+      <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+          <div class="text-center">
+            <i class="fas fa-code fa-2x mb-2"></i>
+            <h5>Code Along</h5>
+            <p class="small">Don't just read - code along with tutorials and modify examples</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="text-center">
+            <i class="fas fa-git-alt fa-2x mb-2"></i>
+            <h5>Version Control</h5>
+            <p class="small">Use Git from day one to track your
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Auth buttons logic (copied from your Home page)
+  const navbarAuth = document.getElementById("navbarAuth");
+  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+
+  if (isLoggedIn) {
+    navbarAuth.innerHTML = `
+      <a href="profile.html" class="btn btn-outline-light me-2">👤 Profile</a>
+      <button class="btn btn-danger" id="logoutBtn">🚪 Logout</button>
+    `;
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("loggedIn");
+      window.location.href = "index1.html";
+    });
+  } else {
+    navbarAuth.innerHTML = `
+      <a href="signin.html" class="btn btn-outline-light me-2">Sign In</a>
+      <a href="signup.html" class="btn btn-success">Sign Up</a>
+    `;
+  }
+</script>
+</body>
+</html>

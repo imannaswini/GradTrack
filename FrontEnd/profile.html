@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Profile - GradTrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+ <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(120deg, #eef2f5 0%, #b57edc 100%);
+      background-size: 200% 200%;
+      animation: bgMove 12s ease-in-out infinite;
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+    @keyframes bgMove {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+    .profile-card {
+      position: relative;
+      border-radius: 24px;
+      box-shadow: 0 16px 48px rgba(88, 81, 152, 0.18), 0 1.5px 6px rgba(88, 81, 152, 0.10);
+      background: rgba(255,255,255,0.90);
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      padding: 48px 36px 36px 36px;
+      max-width: 420px;
+      width: 100%;
+      margin: 40px auto;
+      transition: box-shadow 0.4s, transform 0.4s;
+      z-index: 1;
+      overflow: visible;
+      animation: fadeInCard 1.2s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    @keyframes fadeInCard {
+      from { opacity: 0; transform: translateY(40px) scale(0.95);}
+      to { opacity: 1; transform: translateY(0) scale(1);}
+    }
+    .profile-card:hover, .profile-card:focus-within {
+      box-shadow: 0 24px 64px 0 rgba(88, 81, 152, 0.24), 0 3px 12px 0 rgba(88, 81, 152, 0.13);
+      transform: translateY(-8px) scale(1.025);
+    }
+    .profile-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      margin-bottom: 22px;
+      text-align: center;
+      color: #6a0dad;
+      letter-spacing: 0.03em;
+      text-shadow: 0 2px 8px rgba(106,13,173,0.06);
+      transition: color 0.3s;
+    }
+    .profile-card:hover .profile-title {
+      color: #b57edc;
+    }
+    .img-upload {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(106,13,173,0.12);
+      background: linear-gradient(135deg,#fff 60%,#b57edc 100%);
+      transition: box-shadow 0.4s, transform 0.4s;
+      z-index: 2;
+      border: 4px solid rgba(181, 126, 220, 0.14);
+      animation: avatarPop 1.1s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    @keyframes avatarPop {
+      0% { transform: scale(0.7); opacity: 0; }
+      80% { transform: scale(1.1); opacity: 1;}
+      100% { transform: scale(1);}
+    }
+    .profile-card:hover .img-upload {
+      box-shadow: 0 16px 48px rgba(106,13,173,0.18);
+      transform: scale(1.06) rotate(-3deg);
+    }
+    .img-upload img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      transition: filter 0.3s;
+    }
+    .img-upload.dragover {
+      border: 2.5px dashed #6a0dad;
+      background: #f8eaff;
+      animation: dragPulse 1.2s infinite alternate;
+    }
+    @keyframes dragPulse {
+      from { box-shadow: 0 0 0 0 rgba(181, 126, 220, 0.13);}
+      to { box-shadow: 0 0 24px 8px rgba(181, 126, 220, 0.18);}
+    }
+    .img-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+    .form-label { font-weight: 600; color: #6a0dad; }
+    .form-control, .form-control-file {
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.7);
+      border: 1.5px solid #e0d7f3;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      box-shadow: 0 1px 4px rgba(106,13,173,0.05);
+    }
+    .form-control:focus, .form-control-file:focus {
+      border-color: #b57edc;
+      box-shadow: 0 0 8px 2px #b57edc33;
+      background: #fff;
+    }
+    .btn-save {
+      width: 100%;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 10px;
+      background: linear-gradient(90deg, #b57edc 0%, #6a0dad 100%);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 16px 0 rgba(106,13,173,0.13);
+      transition: box-shadow 0.22s, transform 0.17s, background 0.22s;
+      letter-spacing: 0.05em;
+    }
+    .btn-save:hover, .btn-save:focus {
+      background: linear-gradient(90deg, #6a0dad 0%, #b57edc 100%);
+      box-shadow: 0 8px 32px 0 rgba(106,13,173,0.18);
+      transform: translateY(-2px) scale(1.03);
+      color: #fff;
+    }
+    .link-list { list-style: none; padding-left: 0; }
+    .link-list li { margin-bottom: 10px; }
+    .link-list a, .link-list input { color: #6a0dad; text-decoration: none; border-radius: 8px; }
+    .link-list a:hover { text-decoration: underline; }
+    .strength-meter {
+      height: 6px;
+      border-radius: 4px;
+      background: #e9ecef;
+      margin-top: 4px;
+      overflow: hidden;
+    }
+    .strength-meter div {
+      height: 100%;
+      width: 0;
+      transition: width 0.3s, background 0.3s;
+      background: #b57edc;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 38px;
+      cursor: pointer;
+      color: #b57edc;
+      font-size: 1.2em;
+      user-select: none;
+      transition: color 0.2s;
+    }
+    .toggle-password:hover { color: #6a0dad; }
+    /* Floating particles for HD effect */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.12;
+      pointer-events: none;
+      animation: floatParticle 16s linear infinite;
+      z-index: 0;
+      filter: blur(2px);
+    }
+    .particle1 { width: 110px; height: 110px; left: -40px; top: -40px; background: #fff; animation-delay: 0s;}
+    .particle2 { width: 80px; height: 80px; right: -30px; top: 60%; background: #b57edc; animation-delay: 5s;}
+    .particle3 { width: 90px; height: 90px; left: 60%; bottom: -30px; background: #6a0dad; animation-delay: 2s;}
+    .particle4 { width: 60px; height: 60px; right: 10%; bottom: -20px; background: #fff; animation-delay: 8s;}
+    .particle5 { width: 50px; height: 50px; left: 30%; top: 28vh; background: #f8eaff; animation-delay: 3s;}
+    @keyframes floatParticle {
+      0%, 100% { transform: translateY(0) scale(1);}
+      50% { transform: translateY(-30px) scale(1.08);}
+    }
+    @media (max-width: 600px) {
+      .profile-card { padding: 1.5rem 0.5rem; }
+      .profile-title { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+ <div class="particle particle1"></div>
+  <div class="particle particle2"></div>
+  <div class="particle particle3"></div>
+  <div class="particle particle4"></div>
+  <div class="particle particle5"></div>
+  <div class="profile-card">
+    <h3 class="profile-title">👤 User Profile</h3>
+    <div id="imgDrop" class="img-upload">
+      <img id="profileImage" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Image">
+      <input type="file" id="imageInput" accept="image/*">
+    </div>
+    <form id="profileForm" novalidate>
+      <div class="mb-3">
+        <label for="name" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="name" required />
+        <div class="invalid-feedback">Please enter your name.</div>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Primary Email</label>
+        <input type="email" class="form-control" id="email" required />
+        <div class="invalid-feedback">Enter a valid email.</div>
+      </div>
+      <div class="mb-3">
+        <label for="altEmail" class="form-label">Alternate Email</label>
+        <input type="email" class="form-control" id="altEmail" />
+        <div class="invalid-feedback">Enter a valid alternate email.</div>
+      </div>
+      <div class="mb-3">
+        <label for="phone" class="form-label">Phone Number</label>
+        <input type="tel" class="form-control" id="phone" pattern="\\+?\d{10,15}" />
+        <div class="invalid-feedback">Enter a valid phone number.</div>
+      </div>
+      <div class="mb-3 position-relative">
+        <label for="password" class="form-label">Change Password</label>
+        <input type="password" class="form-control" id="password" placeholder="New password" minlength="6" />
+        <span class="toggle-password" id="togglePwd">👁️</span>
+        <div class="strength-meter" id="strengthMeter"><div></div></div>
+        <div class="invalid-feedback">Password must be at least 6 characters.</div>
+      </div>
+      <div class="mb-3">
+        <label for="resume" class="form-label">Upload Resume</label>
+        <div id="resumeDrop" class="form-control p-4 text-center">Drag & Drop resume here<br/>or click to select</div>
+        <input type="file" class="form-control-file d-none" id="resume" accept=".pdf,.doc,.docx" required />
+        <div class="invalid-feedback">Please upload your resume.</div>
+      </div>
+      <div class="mb-3">
+        <label for="linkedin" class="form-label">LinkedIn Profile</label>
+        <input type="url" class="form-control" id="linkedin" pattern="https?://.+" />
+        <div class="invalid-feedback">Enter a valid URL.</div>
+      </div>
+      <div class="mb-3">
+        <label for="github" class="form-label">GitHub Profile</label>
+        <input type="url" class="form-control" id="github" pattern="https?://.+" />
+        <div class="invalid-feedback">Enter a valid URL.</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Portfolio Links</label>
+        <ul class="link-list" id="portfolioList">
+          <li><input type="url" class="form-control" placeholder="https://yourportfolio.com" pattern="https?://.+" /></li>
+        </ul>
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="addLinkBtn">+ Add Link</button>
+      </div>
+      <button type="submit" class="btn btn-primary btn-save">💾 Save Changes</button>
+    </form>
+  </div>
+
+  <script>
+    // Drag & Drop for Image
+    const imgDrop = document.getElementById('imgDrop');
+    const imageInput = document.getElementById('imageInput');
+    imgDrop.addEventListener('dragover', e => { e.preventDefault(); imgDrop.classList.add('dragover'); });
+    imgDrop.addEventListener('dragleave', () => imgDrop.classList.remove('dragover'));
+    imgDrop.addEventListener('drop', e => {
+      e.preventDefault(); imgDrop.classList.remove('dragover');
+      const file = e.dataTransfer.files[0]; imageInput.files = e.dataTransfer.files; previewImage(file);
+    });
+    imageInput.addEventListener('change', e => previewImage(e.target.files[0]));
+    function previewImage(file) {
+      if (!file) return; const reader = new FileReader(); reader.onload = () => document.getElementById('profileImage').src = reader.result; reader.readAsDataURL(file);
+    }
+
+    // Drag & Drop for Resume
+    const resumeDrop = document.getElementById('resumeDrop');
+    const resumeInput = document.getElementById('resume');
+    resumeDrop.addEventListener('click', () => resumeInput.click());
+    resumeDrop.addEventListener('dragover', e => { e.preventDefault(); resumeDrop.classList.add('border-primary'); });
+    resumeDrop.addEventListener('dragleave', () => resumeDrop.classList.remove('border-primary'));
+    resumeDrop.addEventListener('drop', e => {
+      e.preventDefault(); resumeDrop.classList.remove('border-primary');
+      resumeInput.files = e.dataTransfer.files; resumeDrop.textContent = resumeInput.files[0].name;
+    });
+
+    // Password toggle and strength meter
+    const pwd = document.getElementById('password');
+    const togglePwd = document.getElementById('togglePwd');
+    const meterBar = document.querySelector('#strengthMeter div');
+    togglePwd.addEventListener('click', () => pwd.type = pwd.type === 'password' ? 'text' : 'password');
+    pwd.addEventListener('input', () => {
+      const val = pwd.value; let strength = 0;
+      if (val.length >= 6) strength += 33;
+      if (/[A-Z]/.test(val)) strength += 33;
+      if (/\d/.test(val)) strength += 34;
+      meterBar.style.width = strength + '%';
+      meterBar.style.background = strength > 66 ? 'green' : strength > 33 ? 'orange' : 'red';
+    });
+
+    // Portfolio links
+    document.getElementById('addLinkBtn').addEventListener('click', () => {
+      const ul = document.getElementById('portfolioList');
+      const li = document.createElement('li');
+      li.innerHTML = '<input type="url" class="form-control mb-2" placeholder="https://yourportfolio.com" pattern="https?://.+" />';
+      ul.appendChild(li);
+    });
+
+    // Form validation & persistence & backend POST
+    const form = document.getElementById('profileForm');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.classList.add('was-validated'); return; }
+
+      // Prepare data
+      const formData = new FormData(form);
+      formData.append('image', imageInput.files[0]);
+      formData.append('resume', resumeInput.files[0]);
+      const links = [...document.querySelectorAll('#portfolioList input')].map(i => i.value).filter(Boolean);
+      formData.append('portfolio', JSON.stringify(links));
+
+      // Persist locally
+      const profileData = Object.fromEntries(formData);
+      localStorage.setItem('userProfile', JSON.stringify(profileData));
+
+      // Send to backend
+      try {
+        const res = await fetch('/api/profile', { method: 'POST', body: formData });
+        if (!res.ok) throw new Error('Save failed');
+        alert('Profile updated successfully!');
+        window.location.href = 'index1.html';
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    // Load saved data
+    window.addEventListener('load', () => {
+      const saved = JSON.parse(localStorage.getItem('userProfile') || '{}');
+      for (let key in saved) if (key !== 'image' && key !== 'resume') {
+        const el = document.getElementById(key);
+        if (el) el.value = saved[key];
+      }
+    });
+  </script>
+</body>
+</html>
