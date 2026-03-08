@@ -58,7 +58,7 @@ GradTrack
 ## 📸 Screenshots
 
 ### Dashboard
-![Dashboard](https://raw.githubusercontent.com/imannaswini/GradTrack/main/screenshots/dashboard.png)
+<img src="https://raw.githubusercontent.com/imannaswini/GradTrack/main/screenshots/dashboard.png" width="900"/>
 
 ### Quiz Page
 ![Quiz Page](https://raw.githubusercontent.com/imannaswini/GradTrack/main/screenshots/quiz-page.png)
@@ -225,14 +225,6 @@ fetch('http://127.0.0.1:3000/api/signup', {
 
 GitHub: [https://github.com/imannaswini](https://github.com/imannaswini)
 LinkedIn: [https://www.linkedin.com/in/mannaswini](https://www.linkedin.com/in/mannaswini)
-
----
-
-
-```
-
----
-
 
 
 
