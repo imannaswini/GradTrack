@@ -59,8 +59,9 @@ GradTrack
 
 ### Dashboard
 ![Dashboard](https://raw.githubusercontent.com/imannaswini/GradTrack/main/screenshots/dashboard.png)
+
 ### Quiz Page
-![Quiz Page](./screenshots/quiz-page.png)
+![Quiz Page](https://raw.githubusercontent.com/imannaswini/GradTrack/main/screenshots/quiz-page.png)
 
 # 📖 Overview
 
