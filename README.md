@@ -58,18 +58,15 @@ GradTrack
 
 ---
 
-# 📸 Screenshots
+## 📸 Screenshots
 
-(Add screenshots of your application UI here)
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
 
-Example:
+### Quiz Page
+![Quiz](screenshots/quiz-page.png)
 
-```
 
-screenshots/
-
-dashboard.png
-quiz-page.png
 
 ````
 
