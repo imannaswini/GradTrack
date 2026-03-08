@@ -58,8 +58,7 @@ GradTrack
 ## 📸 Screenshots
 
 ### Dashboard
-<img src="./screenshots/dashboard.png" width="800"/>
-
+![Dashboard](https://raw.githubusercontent.com/imannaswini/GradTrack/main/screenshots/dashboard.png)
 ### Quiz Page
 ![Quiz Page](./screenshots/quiz-page.png)
 
