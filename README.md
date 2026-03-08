@@ -61,10 +61,10 @@ GradTrack
 ## 📸 Screenshots
 
 ### Dashboard
-![Dashboard](screenshots/dashboard.png)
+![index1](screenshots/dashboard.png)
 
 ### Quiz Page
-![Quiz](screenshots/quiz-page.png)
+![quiz](screenshots/quiz-page.png)
 
 
 
