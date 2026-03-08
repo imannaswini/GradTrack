@@ -61,20 +61,10 @@ GradTrack
 ## 📸 Screenshots
 
 ### Dashboard
-![index1](screenshots/dashboard.png)
+![Dashboard](screenshots/dashboard.png)
 
 ### Quiz Page
-![quiz](screenshots/quiz-page.png)
-
-
-
-````
-
-Then reference them like:
-
-```markdown
-![Dashboard](screenshots/dashboard.png)
-````
+![Quiz](screenshots/quiz-page.png)
 
 ---
 
