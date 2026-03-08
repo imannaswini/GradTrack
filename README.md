@@ -1,4 +1,4 @@
-Here is a **clean, recruiter-friendly README** for your **GradTrack** repo. You can **copy-paste this directly into `README.md`**. It keeps your technical documentation but presents it in a **portfolio-style format**. 🚀
+
 
 ```markdown
 # 🎓 GradTrack – Student Skill Development Platform
@@ -55,18 +55,13 @@ GradTrack
 └── README.md
 
 ```
-
----
-
 ## 📸 Screenshots
 
 ### Dashboard
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](./screenshots/dashboard.png)
 
 ### Quiz Page
-![Quiz](screenshots/quiz-page.png)
-
----
+![Quiz Page](./screenshots/quiz-page.png)
 
 # 📖 Overview
 
@@ -233,15 +228,12 @@ LinkedIn: [https://www.linkedin.com/in/mannaswini](https://www.linkedin.com/in/m
 
 ---
 
-⭐ If you found this project useful, consider giving it a star!
 
 ```
 
 ---
 
-✅ After pasting this README, your **GradTrack repo will look like a professional full-stack project**.
 
----
 
-If you want, next we can **upgrade your TrelloClone (SPARK) repo README**, which can become your **strongest GitHub project for placements**. 🚀
+
 ```
