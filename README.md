@@ -58,7 +58,7 @@ GradTrack
 ## 📸 Screenshots
 
 ### Dashboard
-![Dashboard](screenshots/dashboard.png)
+<img src="./screenshots/dashboard.png" width="800"/>
 
 ### Quiz Page
 ![Quiz Page](./screenshots/quiz-page.png)
