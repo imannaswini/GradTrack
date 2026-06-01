@@ -1,938 +1,348 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GradTrack - Jobs</title>
+  <title>Career Opportunities - GradTrack</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      font-family: 'Segoe UI', sans-serif;
-      min-height: 100vh;
-    }
-    
-    .main-content {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      margin: 2rem 0;
-      padding: 2rem;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    }
-    
-    .navbar-brand img {
-      height: 30px;
-      width: 30px;
-      object-fit: cover;
-    }
-    
-    .brand-logo-circle {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px;
-    }
-    
-    .brand-logo-circle img {
-      filter: brightness(0) invert(1);
-    }
-    
-    .nav-link-custom {
-      color: #ffffff !important;
-      font-weight: 500;
-      padding: 8px 16px !important;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      margin: 0 4px;
-    }
-    
-    .nav-link-custom:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: #ffffff !important;
-    }
-    
-    .nav-link-custom.active {
-      background-color: rgba(255, 255, 255, 0.2);
-      color: #ffffff !important;
-      font-weight: 600;
-    }
-    
-    .profile-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border: none;
-      border-radius: 8px;
-      color: white;
-      padding: 8px 16px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      margin-right: 8px;
-    }
-    
-    .profile-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-      color: white;
-      text-decoration: none;
-    }
-    
-    .logout-btn {
-      background: #e74c3c;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      padding: 8px 16px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-    
-    .logout-btn:hover {
-      background: #c0392b;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-    }
-    
-    .signin-btn {
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      padding: 8px 16px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      margin-right: 8px;
-    }
-    
-    .signin-btn:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      text-decoration: none;
-    }
-    
-    .signup-btn {
-      background: #27ae60;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      padding: 8px 16px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-    
-    .signup-btn:hover {
-      background: #229954;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
-      color: white;
-      text-decoration: none;
-    }
-    
-    .search-filter-section {
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      border-radius: 15px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      color: white;
-    }
-    
-    .search-input {
-      border-radius: 50px;
-      border: none;
-      padding: 12px 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    
-    .filter-btn {
-      border-radius: 25px;
-      padding: 8px 20px;
-      margin: 5px;
-      border: 2px solid rgba(255,255,255,0.3);
-      background: rgba(255,255,255,0.1);
-      color: white;
-      transition: all 0.3s ease;
-    }
-    
-    .filter-btn:hover, .filter-btn.active {
-      background: rgba(255,255,255,0.2);
-      border-color: white;
-      transform: translateY(-2px);
-    }
-    
     .job-card {
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 1.5rem;
       transition: all 0.3s ease;
-      border: none;
-      background: white;
-      min-height: 300px;
       position: relative;
       overflow: hidden;
     }
-    
-    .job-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-    }
-    
     .job-card:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      border-color: var(--accent-primary);
     }
-    
     .company-logo {
-      width: 70px;
-      height: 70px;
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
       object-fit: contain;
-      border-radius: 15px;
-      background: #f8f9fa;
+      background: white;
       padding: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 1px solid var(--border-color);
     }
-    
-    .badge {
-      font-size: 0.85rem;
-      padding: 0.6em 1em;
-      margin: 0.2em;
-      border-radius: 20px;
-      font-weight: 500;
-    }
-    
-    .salary-badge {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+    .job-badge {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
       font-weight: 600;
+      letter-spacing: 0.5px;
     }
+    .badge-salary { background: rgba(16,185,129,0.1); color: var(--success); }
+    .badge-type { background: rgba(59,130,246,0.1); color: var(--accent-primary); }
+    .badge-location { background: rgba(245,158,11,0.1); color: var(--warning); }
     
-    .btn-apply {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border: none;
-      border-radius: 25px;
-      padding: 12px 24px;
-      color: white;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    
-    .btn-apply:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-      color: white;
-    }
-    
-    .job-title {
+    .status-indicator {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      font-size: 1.25rem;
-      color: #2c3e50;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
     }
-    
-    .company-name {
-      color: #667eea;
-      font-weight: 600;
+    .urgent-badge { background: rgba(239,68,68,0.1); color: var(--danger); border: 1px solid rgba(239,68,68,0.2); }
+    .featured-badge { background: rgba(139,92,246,0.1); color: var(--accent-secondary); border: 1px solid rgba(139,92,246,0.2); }
+
+    .btn-save-job {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
     }
-    
-    .job-type {
-      font-size: 0.9rem;
-      color: #7f8c8d;
+    .btn-save-job:hover, .btn-save-job.saved {
+      background: rgba(239,68,68,0.1);
+      color: var(--danger);
+      border-color: rgba(239,68,68,0.3);
     }
-    
-    .jobs-header {
-      font-weight: 800;
-      font-size: 2.5rem;
-      text-align: center;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .jobs-subtitle {
-      text-align: center;
-      color: #6c757d;
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-    }
-    
-    .stats-row {
-      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-      border-radius: 15px;
+
+    .filter-sidebar {
+      position: sticky;
+      top: 100px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
       padding: 1.5rem;
-      margin-bottom: 2rem;
     }
-    
-    .stat-item {
-      text-align: center;
+
+    .filter-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0.6rem 1rem;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      transition: all 0.2s;
     }
-    
-    .stat-number {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #2c3e50;
-    }
-    
-    .stat-label {
-      color: #7f8c8d;
-      font-weight: 500;
-    }
-    
-    .footer-link {
-      color: #ffffffb3;
-      text-decoration: none;
-    }
-    
-    .footer-link:hover {
-      color: #fff;
-      text-decoration: underline;
-    }
-    
-    footer {
-      margin-top: 50px;
-      padding: 20px 0 10px 0;
-      background-color: #212529;
-      text-align: center;
-      color: #fff;
-      font-size: 0.95rem;
-    }
-    
-    .urgent-badge {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: #ff4757;
-      color: white;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    
-    .featured-badge {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-      color: #2c3e50;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
+    .filter-btn:hover { background: var(--bg-input); }
+    .filter-btn.active {
+      background: rgba(59,130,246,0.1);
+      color: var(--accent-primary);
+      border-color: rgba(59,130,246,0.2);
       font-weight: 600;
     }
   </style>
 </head>
 <body>
+  <div id="navbar-container"></div>
 
-<!-- GradTrack Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark py-3" style="background-color: #2c3e50;">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="index1.html">
-      <div class="brand-logo-circle">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="GradTrack Logo"/>
+  <div class="main-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Career Opportunities 💼</h2>
+        <p class="text-secondary mb-0">Discover and apply to top roles curated for you.</p>
       </div>
-      <span class="fw-bold fs-4 ms-2">GradTrack</span>
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link nav-link-custom" href="index1.html">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-link-custom" href="quiz.html">Quiz</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-link-custom active" href="jobs.html">Jobs</a> 
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-link-custom" href="guide.html">Guide</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-link-custom" href="interview.html">Placement</a> 
-        </li>
-        <li class="nav-item">
-          <a class="nav-link nav-link-custom" href="res.html">Resources</a> 
-        </li>
-        <li class="nav-item">
-            <a class="nav-link nav-link-custom" href="connect.html">Connect</a>
-          </li>
-      </ul>
-      <div class="d-flex align-items-center" id="navbarAuth">
-        <!-- Auth buttons will be inserted here by JS -->
+      <div style="width: 300px;">
+        <input type="text" id="searchInput" class="form-control auth-input" placeholder="Search roles, companies..." />
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Filter Sidebar -->
+      <div class="col-lg-3">
+        <div class="filter-sidebar">
+          <h6 class="fw-bold mb-3 text-uppercase small text-secondary">Job Type</h6>
+          <button class="filter-btn active" data-filter="all">All Opportunities</button>
+          <button class="filter-btn" data-filter="internship">Internships</button>
+          <button class="filter-btn" data-filter="fulltime">Full-Time Roles</button>
+          
+          <h6 class="fw-bold mb-3 mt-4 text-uppercase small text-secondary">Location</h6>
+          <button class="filter-btn" data-filter="remote">Remote</button>
+          
+          <h6 class="fw-bold mb-3 mt-4 text-uppercase small text-secondary">Quick Filters</h6>
+          <button class="filter-btn" data-filter="urgent">Urgent Hiring</button>
+        </div>
+      </div>
+
+      <!-- Jobs Grid -->
+      <div class="col-lg-9">
+        <div id="emptyState" class="glass-panel text-center p-5 d-none">
+          <h3 class="mb-2">📭 No jobs found</h3>
+          <p class="text-secondary">Try adjusting your filters or search criteria.</p>
+          <button class="btn btn-outline-custom mt-2" onclick="document.querySelector('[data-filter=\'all\']').click(); document.getElementById('searchInput').value=''; document.getElementById('searchInput').dispatchEvent(new Event('input'));">Clear Filters</button>
+        </div>
+
+        <div class="row g-4" id="jobsContainer">
+          
+          <!-- Job 1 -->
+          <div class="col-md-6 job-item" data-type="internship" data-location="mountain-view" data-company="google">
+            <div class="job-card">
+              <div class="status-indicator featured-badge">✨ Featured</div>
+              <div class="d-flex gap-3 mb-3">
+                <img src="https://logo.clearbit.com/google.com" alt="Google Logo" class="company-logo">
+                <div>
+                  <h6 class="job-title fw-bold mb-1">Software Engineering Intern</h6>
+                  <p class="company-name text-secondary small mb-0">Google</p>
+                </div>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="job-badge badge-type job-type">Internship</span>
+                <span class="job-badge badge-location">Mountain View, CA</span>
+                <span class="job-badge badge-salary salary-badge">₹1.2L/mo</span>
+              </div>
+              <p class="text-secondary small mb-4" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Join Google's prestigious internship program. Work on cutting-edge projects and collaborate with world-class engineers.</p>
+              <div class="d-flex gap-2">
+                <a href="apply.html" class="btn btn-primary-custom flex-grow-1 py-2">Apply Now</a>
+                <button class="btn-save-job" title="Save Job">🤍</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Job 2 -->
+          <div class="col-md-6 job-item" data-type="internship" data-location="seattle" data-company="microsoft">
+            <div class="job-card">
+              <div class="status-indicator urgent-badge">🚨 Urgent</div>
+              <div class="d-flex gap-3 mb-3">
+                <img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft Logo" class="company-logo">
+                <div>
+                  <h6 class="job-title fw-bold mb-1">Data Science Intern</h6>
+                  <p class="company-name text-secondary small mb-0">Microsoft</p>
+                </div>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="job-badge badge-type job-type">Internship</span>
+                <span class="job-badge badge-location">Seattle, WA</span>
+                <span class="job-badge badge-salary salary-badge">₹1.1L/mo</span>
+              </div>
+              <p class="text-secondary small mb-4" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Work with Azure AI team to develop next-generation machine learning models. Solve complex data challenges.</p>
+              <div class="d-flex gap-2">
+                <a href="apply.html" class="btn btn-primary-custom flex-grow-1 py-2">Apply Now</a>
+                <button class="btn-save-job" title="Save Job">🤍</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Job 3 -->
+          <div class="col-md-6 job-item" data-type="fulltime" data-location="hyderabad" data-company="amazon">
+            <div class="job-card">
+              <div class="d-flex gap-3 mb-3">
+                <img src="https://logo.clearbit.com/amazon.com" alt="Amazon Logo" class="company-logo">
+                <div>
+                  <h6 class="job-title fw-bold mb-1">Cloud Support Engineer</h6>
+                  <p class="company-name text-secondary small mb-0">Amazon</p>
+                </div>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="job-badge badge-type job-type">Full-Time</span>
+                <span class="job-badge badge-location">Hyderabad, IN</span>
+                <span class="job-badge badge-salary salary-badge">₹12-15L/yr</span>
+              </div>
+              <p class="text-secondary small mb-4" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Support AWS customers worldwide, troubleshoot cloud infrastructure issues, and help businesses scale.</p>
+              <div class="d-flex gap-2">
+                <a href="apply.html" class="btn btn-primary-custom flex-grow-1 py-2">Apply Now</a>
+                <button class="btn-save-job" title="Save Job">🤍</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Job 4 -->
+          <div class="col-md-6 job-item" data-type="fulltime" data-location="bangalore" data-company="infosys">
+            <div class="job-card">
+              <div class="d-flex gap-3 mb-3">
+                <img src="https://logo.clearbit.com/infosys.com" alt="Infosys Logo" class="company-logo">
+                <div>
+                  <h6 class="job-title fw-bold mb-1">Business Analyst</h6>
+                  <p class="company-name text-secondary small mb-0">Infosys</p>
+                </div>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="job-badge badge-type job-type">Full-Time</span>
+                <span class="job-badge badge-location">Bangalore, IN</span>
+                <span class="job-badge badge-salary salary-badge">₹8-10L/yr</span>
+              </div>
+              <p class="text-secondary small mb-4" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Join Infosys as a Business Analyst and work with Fortune 500 clients driving digital transformation.</p>
+              <div class="d-flex gap-2">
+                <a href="apply.html" class="btn btn-primary-custom flex-grow-1 py-2">Apply Now</a>
+                <button class="btn-save-job" title="Save Job">🤍</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Job 5 -->
+          <div class="col-md-6 job-item" data-type="internship" data-location="remote" data-company="startupx">
+            <div class="job-card">
+              <div class="d-flex gap-3 mb-3">
+                <img src="https://via.placeholder.com/70x70/4facfe/ffffff?text=SX" alt="StartupX Logo" class="company-logo">
+                <div>
+                  <h6 class="job-title fw-bold mb-1">Full Stack Developer</h6>
+                  <p class="company-name text-secondary small mb-0">StartupX</p>
+                </div>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="job-badge badge-type job-type">Internship</span>
+                <span class="job-badge badge-location">Remote</span>
+                <span class="job-badge badge-salary salary-badge">₹25K/mo</span>
+              </div>
+              <p class="text-secondary small mb-4" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Build innovative web applications using React, Node.js, and MongoDB in a fast-paced environment.</p>
+              <div class="d-flex gap-2">
+                <a href="apply.html" class="btn btn-primary-custom flex-grow-1 py-2">Apply Now</a>
+                <button class="btn-save-job" title="Save Job">🤍</button>
+              </div>
+            </div>
+          </div>
+          
+        </div>
       </div>
     </div>
   </div>
-</nav>
 
-<div class="container my-4">
-  <div class="main-content">
-    <h1 class="jobs-header">🚀 Career Opportunities</h1>
-    <p class="jobs-subtitle">Discover your next career move with top companies hiring fresh graduates</p>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Filtering and Search Logic Preserved and Adapted
+    const searchInput = document.getElementById('searchInput');
+    const jobItems = document.querySelectorAll('.job-item');
+    const emptyState = document.getElementById('emptyState');
     
-    <!-- Stats Section -->
-    <div class="stats-row">
-      <div class="row">
-        <div class="col-md-3 stat-item">
-          <div class="stat-number">150+</div>
-          <div class="stat-label">Active Jobs</div>
-        </div>
-        <div class="col-md-3 stat-item">
-          <div class="stat-number">50+</div>
-          <div class="stat-label">Companies</div>
-        </div>
-        <div class="col-md-3 stat-item">
-          <div class="stat-number">95%</div>
-          <div class="stat-label">Success Rate</div>
-        </div>
-        <div class="col-md-3 stat-item">
-          <div class="stat-number">₹8.5L</div>
-          <div class="stat-label">Avg Package</div>
-        </div>
-      </div>
-    </div>
-
-   
-    <!-- Jobs Grid -->
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="jobsContainer">
-
-      <!-- Job 1 - Google -->
-      <div class="col job-item" data-type="internship" data-location="mountain-view" data-company="google">
-        <div class="card job-card p-4 h-100">
-          <div class="featured-badge">✨ Featured</div>
-          <div class="d-flex align-items-center mb-3">
-            <img src="https://logo.clearbit.com/google.com" alt="Google Logo" class="company-logo me-3">
-            <div>
-              <div class="company-name">Google</div>
-              <div class="job-title">Software Engineering Intern</div>
-              <div class="job-type">Summer 2025 Program</div>
-            </div>
-          </div>
-          <p class="mb-3">Join Google's prestigious internship program. Work on cutting-edge projects, collaborate with world-class engineers, and contribute to products used by billions of users worldwide.</p>
-          <div class="mb-3">
-            <span class="badge bg-success">Internship</span>
-            <span class="badge bg-primary">Mountain View, CA</span>
-            <span class="badge salary-badge">₹1.2L/month</span>
-          </div>
-          <div class="mt-auto">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <small class="text-muted">📅 Apply by: Jan 31, 2025</small>
-              <small class="text-success">🔥 Hot Job</small>
-            </div>
-         <a href="apply.html" class="btn btn-outline-primary w-100">Apply Now</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Job 2 - Microsoft -->
-      <div class="col job-item" data-type="internship" data-location="seattle" data-company="microsoft">
-        <div class="card job-card p-4 h-100">
-          <div class="urgent-badge">🚨 Urgent</div>
-          <div class="d-flex align-items-center mb-3">
-            <img src="https://logo.clearbit.com/microsoft.com" alt="Microsoft Logo" class="company-logo me-3">
-            <div>
-              <div class="company-name">Microsoft</div>
-              <div class="job-title">Data Science Intern</div>
-              <div class="job-type">AI/ML Focus</div>
-            </div>
-          </div>
-          <p class="mb-3">Work with Azure AI team to develop next-generation machine learning models. Collaborate with researchers and engineers to solve complex data challenges.</p>
-          <div class="mb-3">
-            <span class="badge bg-success">Internship</span>
-            <span class="badge bg-primary">Seattle, WA</span>
-            <span class="badge salary-badge">₹1.1L/month</span>
-          </div>
-          <div class="mt-auto">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <small class="text-muted">📅 Apply by: Dec 28, 2024</small>
-              <small class="text-danger">⏰ 3 days left</small>
-            </div>
-            <a href="apply.html" class="btn btn-outline-primary w-100">Apply Now</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Job 3 - Amazon -->
-      <div class="col job-item" data-type="fulltime" data-location="hyderabad" data-company="amazon">
-        <div class="card job-card p-4 h-100">
-          <div class="d-flex align-items-center mb-3">
-            <img src="https://logo.clearbit.com/amazon.com" alt="Amazon Logo" class="company-logo me-3">
-            <div>
-              <div class="company-name">Amazon</div>
-              <div class="job-title">Cloud Support Engineer</div>
-              <div class="job-type">AWS Team</div>
-            </div>
-          </div>
-          <p class="mb-3">Support AWS customers worldwide, troubleshoot cloud infrastructure issues, and help businesses scale their operations using Amazon Web Services.</p>
-          <div class="mb-3">
-            <span class="badge bg-info text-dark">Full-Time</span>
-            <span class="badge bg-primary">Hyderabad, India</span>
-            <span class="badge salary-badge">₹12-15L/year</span>
-          </div>
-          <div class="mt-auto">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <small class="text-muted">📅 Apply by: Feb 15, 2025</small>
-              <small class="text-info">👥 10+ openings</small>
-            </div>
-          <a href="apply.html" class="btn btn-outline-primary w-100">Apply Now</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Job 4 - Infosys -->
-      <div class="col job-item" data-type="fulltime" data-location="bangalore" data-company="infosys">
-        <div class="card job-card p-4 h-100">
-          <div class="d-flex align-items-center mb-3">
-            <img src="https://logo.clearbit.com/infosys.com" alt="Infosys Logo" class="company-logo me-3">
-            <div>
-              <div class="company-name">Infosys</div>
-              <div class="job-title">Business Analyst</div>
-              <div class="job-type">Graduate Program</div>
-            </div>
-          </div>
-          <p class="mb-3">Join Infosys as a Business Analyst and work with Fortune 500 clients. Analyze business requirements, design solutions, and drive digital transformation initiatives.</p>
-          <div class="mb-3">
-            <span class="badge bg-info text-dark">Full-Time</span>
-            <span class="badge bg-primary">Bangalore, India</span>
-            <span class="badge salary-badge">₹8-10L/year</span>
-          </div>
-          <div class="mt-auto">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <small class="text-muted">📅 Apply by: Jan 20, 2025</small>
-              <small class="text-success">📚 Training Provided</small>
-            </div>
-        <a href="apply.html" class="btn btn-outline-primary w-100">Apply Now</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Job 5 - Startup -->
-      <div class="col job-item" data-type="internship" data-location="remote" data-company="startupx">
-        <div class="card job-card p-4 h-100">
-          <div class="d-flex align-items-center mb-3">
-            <img src="https://via.placeholder.com/70x70/4facfe/ffffff?text=SX" alt="StartupX Logo" class="company-logo me-3">
-            <div>
-              <div class="company-name">StartupX</div>
-              <div class="job-title">Full Stack Developer</div>
-              <div class="job-type">Remote Opportunity</div>
-            </div>
-          </div>
-          <p class="mb-3">Build innovative web applications using React, Node.js, and MongoDB. Work directly with founders and gain hands-on experience in a fast-paced startup environment.</p>
-          <div class="mb-3">
-            <span class="badge bg-success">Internship</span>
-            <span class="badge bg-secondary">Remote</span>
-            <span class="badge salary-badge">₹25K/month</span>
-          </div>
-          <div class="mt-auto">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <small class="text-muted">📅 Apply by: Feb 5, 2025</small>
-              <small class="text-primary">🌟 Equity Options</small>
-            </div>
-         <a href="apply.html" class="btn btn-outline-primary w-100">Apply Now</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Job 6 - Flipkart -->
-      <div class="col job-item" data-type="fulltime" data-location="bangalore" data-company="flipkart">
-        <div class="card job-card p-4 h-100">
-          <div class="d-flex align-items-center mb-3">
-            <img src="https://logo.clearbit.com/flipkart.com" alt="Flipkart Logo" class="company-logo me-3">
-            <div>
-              <div class="company-name">Flipkart</div>
-              <div class="job-title">Product Manager</div>
-              <div class="job-type">E-commerce Platform</div>
-            </div>
-          </div>
-          <p class="mb-3">Drive product strategy for India's largest e-commerce platform. Work with cross-functional teams to launch features that impact millions of users daily.</p>
-          <div class="mb-3">
-            <span class="badge bg-info text-dark">Full-Time</span>
-            <span class="badge bg-primary">Bangalore, India</span>
-            <span class="badge salary-badge">₹18-25L/year</span>
-          </div>
-          <div class="mt-auto">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <small class="text-muted">📅 Apply by: Jan 25, 2025</small>
-              <small class="text-warning">🎯 2-3 years exp</small>
-            </div>
-            <button class="btn btn-apply w-100" onclick="applyToJob('Flipkart', 'Product Manager')">Apply Now</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Job 7 - Zomato -->
-      <div class="col job-item" data-type="internship" data-location="gurgaon" data-company="zomato">
-        <div class="card job-card p-4 h-100">
-          <div class="urgent-badge">🚨 Urgent</div>
-          <div class="d-flex align-items-center mb-3">
-            <img src="https://logo.clearbit.com/zomato.com" alt="Zomato Logo" class="company-logo me-3">
-            <div>
-              <div class="company-name">Zomato</div>
-              <div class="job-title">Marketing Intern</div>
-              <div class="job-type">Growth Team</div>
-            </div>
-          </div>
-          <p class="mb-3">Join Zomato's growth marketing team to create campaigns that drive user acquisition and engagement across India's food delivery ecosystem.</p>
-          <div class="mb-3">
-            <span class="badge bg-success">Internship</span>
-            <span class="badge bg-primary">Gurgaon, India</span>
-            <span class="badge salary-badge">₹30K/month</span>
-          </div>
-          <div class="mt-auto">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <small class="text-muted">📅 Apply by: Dec 30, 2024</small>
-              <small class="text-danger">⏰ 5 days left</small>
-            </div>
-         <a href="apply.html" class="btn btn-outline-primary w-100">Apply Now</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Job 8 - Paytm -->
-      <div class="col job-item" data-type="fulltime" data-location="noida" data-company="paytm">
-        <div class="card job-card p-4 h-100">
-          <div class="featured-badge">✨ Featured</div>
-          <div class="d-flex align-items-center mb-3">
-            <img src="https://logo.clearbit.com/paytm.com" alt="Paytm Logo" class="company-logo me-3">
-            <div>
-              <div class="company-name">Paytm</div>
-              <div class="job-title">Software Engineer</div>
-              <div class="job-type">Fintech Solutions</div>
-            </div>
-          </div>
-          <p class="mb-3">Build scalable fintech solutions that serve millions of users. Work on payment systems, digital wallets, and innovative financial products.</p>
-          <div class="mb-3">
-            <span class="badge bg-info text-dark">Full-Time</span>
-            <span class="badge bg-primary">Noida, India</span>
-            <span class="badge salary-badge">₹15-20L/year</span>
-          </div>
-          <div class="mt-auto">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <small class="text-muted">📅 Apply by: Feb 10, 2025</small>
-              <small class="text-success">🚀 Fast Growth</small>
-            </div>
-       <a href="apply.html" class="btn btn-outline-primary w-100">Apply Now</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Job 9 - TCS -->
-      <div class="col job-item" data-type="fulltime" data-location="chennai" data-company="tcs">
-        <div class="card job-card p-4 h-100">
-          <div class="d-flex align-items-center mb-3">
-            <img src="https://logo.clearbit.com/tcs.com" alt="TCS Logo" class="company-logo me-3">
-            <div>
-              <div class="company-name">TCS</div>
-              <div class="job-title">System Engineer</div>
-              <div class="job-type">Graduate Trainee</div>
-            </div>
-          </div>
-          <p class="mb-3">Join India's largest IT services company. Comprehensive training program followed by client projects in various domains including banking, retail, and healthcare.</p>
-          <div class="mb-3">
-            <span class="badge bg-info text-dark">Full-Time</span>
-            <span class="badge bg-primary">Chennai, India</span>
-            <span class="badge salary-badge">₹3.5-4.5L/year</span>
-          </div>
-          <div class="mt-auto">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <small class="text-muted">📅 Apply by: Jan 15, 2025</small>
-              <small class="text-info">🎓 Fresher Friendly</small>
-            </div>
-           <a href="apply.html" class="btn btn-outline-primary w-100">Apply  Now</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  // Auth buttons logic
-  const navbarAuth = document.getElementById("navbarAuth");
-  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
-  if (isLoggedIn) {
-    navbarAuth.innerHTML = `
-      <a href="profile.html" class="profile-btn">👤 Profile</a>
-      <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
-    `;
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      localStorage.removeItem("loggedIn");
-      window.location.href = "index1.html";
-    });
-  } else {
-    navbarAuth.innerHTML = `
-      <a href="signin.html" class="signin-btn">Sign In</a>
-      <a href="signup.html" class="signup-btn">Sign Up</a>
-    `;
-  }
-
-  // Job application function
-  function applyToJob(company, position) {
-    if (isLoggedIn) {
-      alert(`Application submitted for ${position} at ${company}! You will be redirected to the application form.`);
-      // In a real app, this would redirect to application form
-      window.location.href = "apply.html";
-    } else {
-      alert("Please sign in to apply for jobs.");
-      window.location.href = "signin.html";
-    }
-  }
-
-  // Search functionality
-  const searchInput = document.getElementById('searchInput');
-  const jobItems = document.querySelectorAll('.job-item');
-  
-  searchInput.addEventListener('input', function() {
-    const searchTerm = this.value.toLowerCase();
-    
-    jobItems.forEach(item => {
-      const company = item.querySelector('.company-name').textContent.toLowerCase();
-      const jobTitle = item.querySelector('.job-title').textContent.toLowerCase();
-      const jobType = item.querySelector('.job-type').textContent.toLowerCase();
+    function updateVisibility() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const activeFilterBtn = document.querySelector('.filter-btn.active');
+      const filter = activeFilterBtn ? activeFilterBtn.getAttribute('data-filter') : 'all';
       
-      if (company.includes(searchTerm) || jobTitle.includes(searchTerm) || jobType.includes(searchTerm)) {
-        item.style.display = 'block';
-      } else {
-        item.style.display = 'none';
-      }
-    });
-  });
+      let visibleCount = 0;
 
-  // Filter functionality
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  
-  filterButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      // Remove active class from all buttons
-      filterButtons.forEach(btn => btn.classList.remove('active'));
-      // Add active class to clicked button
-      this.classList.add('active');
-      
-      const filter = this.getAttribute('data-filter');
-      
       jobItems.forEach(item => {
+        const company = item.querySelector('.company-name').textContent.toLowerCase();
+        const jobTitle = item.querySelector('.job-title').textContent.toLowerCase();
+        const jobType = item.querySelector('.job-type').textContent.toLowerCase();
+        
+        let matchesSearch = company.includes(searchTerm) || jobTitle.includes(searchTerm) || jobType.includes(searchTerm);
+        let matchesFilter = false;
+
         if (filter === 'all') {
-          item.style.display = 'block';
+          matchesFilter = true;
         } else if (filter === 'internship') {
-          item.style.display = item.getAttribute('data-type') === 'internship' ? 'block' : 'none';
+          matchesFilter = item.getAttribute('data-type') === 'internship';
         } else if (filter === 'fulltime') {
-          item.style.display = item.getAttribute('data-type') === 'fulltime' ? 'block' : 'none';
+          matchesFilter = item.getAttribute('data-type') === 'fulltime';
         } else if (filter === 'remote') {
-          item.style.display = item.getAttribute('data-location') === 'remote' ? 'block' : 'none';
+          matchesFilter = item.getAttribute('data-location') === 'remote';
         } else if (filter === 'urgent') {
-          item.style.display = item.querySelector('.urgent-badge') ? 'block' : 'none';
+          matchesFilter = item.querySelector('.urgent-badge') !== null;
+        }
+
+        if (matchesSearch && matchesFilter) {
+          item.style.display = 'block';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      if(visibleCount === 0) {
+        emptyState.classList.remove('d-none');
+      } else {
+        emptyState.classList.add('d-none');
+      }
+    }
+
+    searchInput.addEventListener('input', updateVisibility);
+
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+        updateVisibility();
+      });
+    });
+
+    // Save functionality
+    document.querySelectorAll('.btn-save-job').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.classList.toggle('saved');
+        if (this.classList.contains('saved')) {
+          this.innerHTML = '❤️';
+          window.showToast("Job saved to your bookmarks!", "success");
+        } else {
+          this.innerHTML = '🤍';
+          window.showToast("Job removed from bookmarks.", "info");
         }
       });
     });
-  });
 
-  // Load More functionality
-  const loadMoreBtn = document.getElementById('loadMoreBtn');
-  const additionalJobs = [
-    {
-      company: 'Swiggy',
-      logo: 'https://logo.clearbit.com/swiggy.com',
-      position: 'Operations Analyst',
-      type: 'Full-Time',
-      location: 'Mumbai, India',
-      salary: '₹6-8L/year',
-      description: 'Optimize delivery operations and improve customer experience for India\'s leading food delivery platform.',
-      deadline: 'Feb 8, 2025',
-      badge: '📈 Growth Role'
-    },
-    {
-      company: 'Razorpay',
-      logo: 'https://logo.clearbit.com/razorpay.com',
-      position: 'Frontend Developer',
-      type: 'Internship',
-      location: 'Bangalore, India',
-      salary: '₹40K/month',
-      description: 'Build beautiful and responsive web interfaces for India\'s leading payment gateway solution.',
-      deadline: 'Jan 28, 2025',
-      badge: '💰 High Stipend'
-    },
-    {
-      company: 'Ola',
-      logo: 'https://logo.clearbit.com/olacabs.com',
-      position: 'Data Analyst',
-      type: 'Full-Time',
-      location: 'Bangalore, India',
-      salary: '₹10-12L/year',
-      description: 'Analyze ride patterns and optimize routes to improve Ola\'s transportation network efficiency.',
-      deadline: 'Feb 12, 2025',
-      badge: '🚗 Mobility Tech'
-    }
-  ];
-
-  let jobsLoaded = false;
-  
-  loadMoreBtn.addEventListener('click', function() {
-    if (!jobsLoaded) {
-      const jobsContainer = document.getElementById('jobsContainer');
-      
-      additionalJobs.forEach(job => {
-        const jobCard = `
-          <div class="col job-item" data-type="${job.type.toLowerCase().replace('-', '')}" data-location="${job.location.toLowerCase().split(',')[0].replace(' ', '-')}" data-company="${job.company.toLowerCase()}">
-            <div class="card job-card p-4 h-100">
-              <div class="d-flex align-items-center mb-3">
-                <img src="${job.logo}" alt="${job.company} Logo" class="company-logo me-3">
-                <div>
-                  <div class="company-name">${job.company}</div>
-                  <div class="job-title">${job.position}</div>
-                  <div class="job-type">${job.type} Role</div>
-                </div>
-              </div>
-              <p class="mb-3">${job.description}</p>
-              <div class="mb-3">
-                <span class="badge ${job.type === 'Internship' ? 'bg-success' : 'bg-info text-dark'}">${job.type}</span>
-                <span class="badge bg-primary">${job.location}</span>
-                <span class="badge salary-badge">${job.salary}</span>
-              </div>
-              <div class="mt-auto">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <small class="text-muted">📅 Apply by: ${job.deadline}</small>
-                  <small class="text-primary">${job.badge}</small>
-                </div>
-                <button class="btn btn-apply w-100" onclick="applyToJob('${job.company}', '${job.position}')">Apply Now</button>
-              </div>
-            </div>
-          </div>
-        `;
-        jobsContainer.insertAdjacentHTML('beforeend', jobCard);
-      });
-      
-      this.textContent = 'All Jobs Loaded';
-      this.disabled = true;
-      jobsLoaded = true;
-      
-      // Add fade-in animation to new jobs
-      const newJobs = document.querySelectorAll('.job-item:nth-last-child(-n+3)');
-      newJobs.forEach((job, index) => {
-        job.style.opacity = '0';
-        job.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-          job.style.transition = 'all 0.5s ease';
-          job.style.opacity = '1';
-          job.style.transform = 'translateY(0)';
-        }, index * 200);
-      });
-    }
-  });
-
-  // Add smooth scrolling for better UX
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelector(this.getAttribute('href')).scrollIntoView({
-        behavior: 'smooth'
-      });
-    });
-  });
-
-  // Add job save functionality (in memory storage)
-  let savedJobs = [];
-  
-  function saveJob(company, position) {
-    const job = { company, position, savedAt: new Date().toISOString() };
-    savedJobs.push(job);
-    alert(`${position} at ${company} has been saved to your favorites!`);
-  }
-  
-  // Add save buttons to existing jobs
-  document.addEventListener('DOMContentLoaded', function() {
-    const jobCards = document.querySelectorAll('.job-card');
-    jobCards.forEach(card => {
-      const company = card.querySelector('.company-name').textContent;
-      const position = card.querySelector('.job-title').textContent;
-      
-      const saveBtn = document.createElement('button');
-      saveBtn.className = 'btn btn-outline-secondary btn-sm';
-      saveBtn.innerHTML = '🤍 Save';
-      saveBtn.style.position = 'absolute';
-      saveBtn.style.top = '15px';
-      saveBtn.style.left = '15px';
-      saveBtn.style.zIndex = '10';
-      
-      saveBtn.addEventListener('click', function() {
-        saveJob(company, position);
-        this.innerHTML = '❤️ Saved';
-        this.disabled = true;
-      });
-      
-      card.appendChild(saveBtn);
-    });
-  });
-
-  // Add keyboard navigation
-  document.addEventListener('keydown', function(e) {
-    if (e.ctrlKey && e.key === 'k') {
-      e.preventDefault();
-      searchInput.focus();
-    }
-  });
-
-  // Add scroll to top functionality
-  window.addEventListener('scroll', function() {
-    const scrollTop = document.createElement('button');
-    if (window.pageYOffset > 300) {
-      if (!document.getElementById('scrollTop')) {
-        scrollTop.id = 'scrollTop';
-        scrollTop.innerHTML = '↑';
-        scrollTop.style.cssText = `
-          position: fixed;
-          bottom: 20px;
-          right: 20px;
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
-          border: none;
-          font-size: 20px;
-          cursor: pointer;
-          z-index: 1000;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-          transition: all 0.3s ease;
-        `;
-        
-        scrollTop.addEventListener('click', function() {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        
-        scrollTop.addEventListener('mouseenter', function() {
-          this.style.transform = 'scale(1.1)';
-        });
-        
-        scrollTop.addEventListener('mouseleave', function() {
-          this.style.transform = 'scale(1)';
-        });
-        
-        document.body.appendChild(scrollTop);
+    // Keyboard shortcut for search
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInput.focus();
       }
-    } else {
-      const existingBtn = document.getElementById('scrollTop');
-      if (existingBtn) {
-        existingBtn.remove();
-      }
-    }
-  });
+    });
+  </script>
+</body>
+</html>

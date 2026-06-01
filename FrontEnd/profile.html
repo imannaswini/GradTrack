@@ -1,274 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>User Profile - GradTrack</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
- <style>
-    body {
-      min-height: 100vh;
-      background: linear-gradient(120deg, #eef2f5 0%, #b57edc 100%);
-      background-size: 200% 200%;
-      animation: bgMove 12s ease-in-out infinite;
-      font-family: 'Poppins', 'Segoe UI', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
-    }
-    @keyframes bgMove {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-    .profile-card {
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .profile-header {
       position: relative;
-      border-radius: 24px;
-      box-shadow: 0 16px 48px rgba(88, 81, 152, 0.18), 0 1.5px 6px rgba(88, 81, 152, 0.10);
-      background: rgba(255,255,255,0.90);
-      backdrop-filter: blur(14px) saturate(160%);
-      -webkit-backdrop-filter: blur(14px) saturate(160%);
-      padding: 48px 36px 36px 36px;
-      max-width: 420px;
-      width: 100%;
-      margin: 40px auto;
-      transition: box-shadow 0.4s, transform 0.4s;
-      z-index: 1;
-      overflow: visible;
-      animation: fadeInCard 1.2s cubic-bezier(.68,-0.55,.27,1.55);
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      height: 180px;
+      margin-bottom: 80px;
     }
-    @keyframes fadeInCard {
-      from { opacity: 0; transform: translateY(40px) scale(0.95);}
-      to { opacity: 1; transform: translateY(0) scale(1);}
-    }
-    .profile-card:hover, .profile-card:focus-within {
-      box-shadow: 0 24px 64px 0 rgba(88, 81, 152, 0.24), 0 3px 12px 0 rgba(88, 81, 152, 0.13);
-      transform: translateY(-8px) scale(1.025);
-    }
-    .profile-title {
-      font-size: 2.1rem;
-      font-weight: 800;
-      margin-bottom: 22px;
-      text-align: center;
-      color: #6a0dad;
-      letter-spacing: 0.03em;
-      text-shadow: 0 2px 8px rgba(106,13,173,0.06);
-      transition: color 0.3s;
-    }
-    .profile-card:hover .profile-title {
-      color: #b57edc;
-    }
-    .img-upload {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 20px;
+    .profile-avatar-container {
+      position: absolute;
+      bottom: -60px;
+      left: 40px;
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
+      border: 6px solid var(--bg-card);
+      background: var(--bg-input);
+      display: flex;
+      justify-content: center;
+      align-items: center;
       overflow: hidden;
-      box-shadow: 0 8px 32px rgba(106,13,173,0.12);
-      background: linear-gradient(135deg,#fff 60%,#b57edc 100%);
-      transition: box-shadow 0.4s, transform 0.4s;
-      z-index: 2;
-      border: 4px solid rgba(181, 126, 220, 0.14);
-      animation: avatarPop 1.1s cubic-bezier(.68,-0.55,.27,1.55);
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
     }
-    @keyframes avatarPop {
-      0% { transform: scale(0.7); opacity: 0; }
-      80% { transform: scale(1.1); opacity: 1;}
-      100% { transform: scale(1);}
-    }
-    .profile-card:hover .img-upload {
-      box-shadow: 0 16px 48px rgba(106,13,173,0.18);
-      transform: scale(1.06) rotate(-3deg);
-    }
-    .img-upload img {
+    .profile-avatar-container img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    .profile-avatar-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .profile-avatar-container:hover .profile-avatar-overlay { opacity: 1; }
+    
+    .completion-circle {
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      transition: filter 0.3s;
+      background: conic-gradient(var(--success) 85%, var(--bg-input) 0);
+      display: flex; align-items: center; justify-content: center;
     }
-    .img-upload.dragover {
-      border: 2.5px dashed #6a0dad;
-      background: #f8eaff;
-      animation: dragPulse 1.2s infinite alternate;
+    .completion-circle::after {
+      content: ""; position: absolute; width: 48px; height: 48px;
+      background: var(--bg-card); border-radius: 50%;
     }
-    @keyframes dragPulse {
-      from { box-shadow: 0 0 0 0 rgba(181, 126, 220, 0.13);}
-      to { box-shadow: 0 0 24px 8px rgba(181, 126, 220, 0.18);}
-    }
-    .img-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .completion-value { position: relative; z-index: 1; font-weight: bold; font-size: 0.9rem; color: var(--text-primary); }
 
-    .form-label { font-weight: 600; color: #6a0dad; }
-    .form-control, .form-control-file {
-      border-radius: 10px;
-      padding: 12px;
-      font-size: 1rem;
-      background: rgba(255,255,255,0.7);
-      border: 1.5px solid #e0d7f3;
-      transition: border-color 0.3s, box-shadow 0.3s;
-      box-shadow: 0 1px 4px rgba(106,13,173,0.05);
-    }
-    .form-control:focus, .form-control-file:focus {
-      border-color: #b57edc;
-      box-shadow: 0 0 8px 2px #b57edc33;
-      background: #fff;
-    }
-    .btn-save {
-      width: 100%;
-      font-weight: bold;
-      font-size: 1.1rem;
-      border-radius: 10px;
-      padding: 14px;
-      margin-top: 10px;
-      background: linear-gradient(90deg, #b57edc 0%, #6a0dad 100%);
-      color: #fff;
-      border: none;
-      box-shadow: 0 4px 16px 0 rgba(106,13,173,0.13);
-      transition: box-shadow 0.22s, transform 0.17s, background 0.22s;
-      letter-spacing: 0.05em;
-    }
-    .btn-save:hover, .btn-save:focus {
-      background: linear-gradient(90deg, #6a0dad 0%, #b57edc 100%);
-      box-shadow: 0 8px 32px 0 rgba(106,13,173,0.18);
-      transform: translateY(-2px) scale(1.03);
-      color: #fff;
-    }
-    .link-list { list-style: none; padding-left: 0; }
-    .link-list li { margin-bottom: 10px; }
-    .link-list a, .link-list input { color: #6a0dad; text-decoration: none; border-radius: 8px; }
-    .link-list a:hover { text-decoration: underline; }
-    .strength-meter {
-      height: 6px;
-      border-radius: 4px;
-      background: #e9ecef;
-      margin-top: 4px;
-      overflow: hidden;
-    }
-    .strength-meter div {
-      height: 100%;
-      width: 0;
-      transition: width 0.3s, background 0.3s;
-      background: #b57edc;
-    }
-    .toggle-password {
-      position: absolute;
-      right: 12px;
-      top: 38px;
+    .resume-drop-zone {
+      border: 2px dashed var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s;
       cursor: pointer;
-      color: #b57edc;
-      font-size: 1.2em;
-      user-select: none;
-      transition: color 0.2s;
+      background: var(--bg-input);
     }
-    .toggle-password:hover { color: #6a0dad; }
-    /* Floating particles for HD effect */
-    .particle {
+    .resume-drop-zone:hover, .resume-drop-zone.border-primary {
+      border-color: var(--accent-primary);
+      background: rgba(59,130,246,0.05);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 2rem;
+      padding-bottom: 1.5rem;
+      border-left: 2px solid var(--border-color);
+      margin-left: 1rem;
+    }
+    .timeline-item::before {
+      content: "";
       position: absolute;
+      left: -9px;
+      top: 0;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      opacity: 0.12;
-      pointer-events: none;
-      animation: floatParticle 16s linear infinite;
-      z-index: 0;
-      filter: blur(2px);
+      background: var(--accent-primary);
+      border: 3px solid var(--bg-card);
     }
-    .particle1 { width: 110px; height: 110px; left: -40px; top: -40px; background: #fff; animation-delay: 0s;}
-    .particle2 { width: 80px; height: 80px; right: -30px; top: 60%; background: #b57edc; animation-delay: 5s;}
-    .particle3 { width: 90px; height: 90px; left: 60%; bottom: -30px; background: #6a0dad; animation-delay: 2s;}
-    .particle4 { width: 60px; height: 60px; right: 10%; bottom: -20px; background: #fff; animation-delay: 8s;}
-    .particle5 { width: 50px; height: 50px; left: 30%; top: 28vh; background: #f8eaff; animation-delay: 3s;}
-    @keyframes floatParticle {
-      0%, 100% { transform: translateY(0) scale(1);}
-      50% { transform: translateY(-30px) scale(1.08);}
-    }
-    @media (max-width: 600px) {
-      .profile-card { padding: 1.5rem 0.5rem; }
-      .profile-title { font-size: 1.3rem; }
-    }
+    .timeline-item:last-child { border-left-color: transparent; }
   </style>
 </head>
 <body>
- <div class="particle particle1"></div>
-  <div class="particle particle2"></div>
-  <div class="particle particle3"></div>
-  <div class="particle particle4"></div>
-  <div class="particle particle5"></div>
-  <div class="profile-card">
-    <h3 class="profile-title">👤 User Profile</h3>
-    <div id="imgDrop" class="img-upload">
-      <img id="profileImage" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Image">
-      <input type="file" id="imageInput" accept="image/*">
+  <div id="navbar-container"></div>
+
+  <div class="main-content">
+    
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <div id="imgDrop" class="profile-avatar-container">
+        <img id="profileImage" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Image">
+        <div class="profile-avatar-overlay">
+          <span style="font-size: 1.2rem;">📷</span>
+          <span style="font-size: 0.7rem;">Update</span>
+        </div>
+        <input type="file" id="imageInput" accept="image/*" class="d-none">
+      </div>
+      
+      <div class="position-absolute" style="right: 40px; bottom: -40px; display: flex; align-items: center; gap: 1rem;">
+        <div class="d-flex align-items-center gap-2 bg-card p-2 rounded-pill shadow-sm" style="background: var(--bg-card); border: 1px solid var(--glass-border);">
+          <div class="completion-circle">
+            <span class="completion-value">85%</span>
+          </div>
+          <div class="pe-3">
+            <p class="mb-0 fw-bold small lh-1">Profile</p>
+            <small class="text-secondary" style="font-size: 0.75rem;">Completion</small>
+          </div>
+        </div>
+      </div>
     </div>
+
     <form id="profileForm" novalidate>
-      <div class="mb-3">
-        <label for="name" class="form-label">Full Name</label>
-        <input type="text" class="form-control" id="name" required />
-        <div class="invalid-feedback">Please enter your name.</div>
+      <div class="row g-4">
+        <!-- Main Form Column -->
+        <div class="col-lg-8">
+          <div class="glass-panel p-4 mb-4">
+            <h5 class="fw-bold mb-4">Personal Details</h5>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="name" class="form-label small fw-semibold text-secondary">Full Name</label>
+                <input type="text" class="form-control auth-input" id="name" required />
+                <div class="invalid-feedback">Please enter your name.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="phone" class="form-label small fw-semibold text-secondary">Phone Number</label>
+                <input type="tel" class="form-control auth-input" id="phone" pattern="\\+?\d{10,15}" />
+                <div class="invalid-feedback">Enter a valid phone number.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="email" class="form-label small fw-semibold text-secondary">Primary Email</label>
+                <input type="email" class="form-control auth-input" id="email" required />
+                <div class="invalid-feedback">Enter a valid email.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="altEmail" class="form-label small fw-semibold text-secondary">Alternate Email</label>
+                <input type="email" class="form-control auth-input" id="altEmail" />
+              </div>
+              
+              <div class="col-md-6 position-relative mt-4">
+                <label for="password" class="form-label small fw-semibold text-secondary">Change Password</label>
+                <div class="input-group">
+                  <input type="password" class="form-control auth-input" id="password" placeholder="New password" minlength="6" />
+                  <span class="input-group-text auth-input" id="togglePwd" style="cursor: pointer;">👁️</span>
+                </div>
+                <div class="progress mt-2" style="height: 4px; background: var(--bg-input);">
+                  <div class="progress-bar" id="strengthMeterBar" role="progressbar" style="width: 0%;"></div>
+                </div>
+                <!-- Hidden div to maintain compatibility with existing JS querySelector('#strengthMeter div') -->
+                <div id="strengthMeter" class="d-none"><div></div></div>
+                <div class="invalid-feedback">Password must be at least 6 characters.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-panel p-4 mb-4">
+            <h5 class="fw-bold mb-4">Professional Links & Resume</h5>
+            
+            <div class="mb-4">
+              <label for="resume" class="form-label small fw-semibold text-secondary">Resume Document</label>
+              <div id="resumeDrop" class="resume-drop-zone">
+                <p class="mb-1" style="font-size: 2rem;">📄</p>
+                <p class="mb-0 fw-semibold">Drag & Drop resume here</p>
+                <small class="text-secondary">or click to browse (.pdf, .doc, .docx)</small>
+              </div>
+              <input type="file" class="d-none" id="resume" accept=".pdf,.doc,.docx" required />
+              <div class="invalid-feedback">Please upload your resume.</div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="linkedin" class="form-label small fw-semibold text-secondary">LinkedIn Profile</label>
+                <input type="url" class="form-control auth-input" id="linkedin" placeholder="https://linkedin.com/in/username" pattern="https?://.+" />
+              </div>
+              <div class="col-md-6">
+                <label for="github" class="form-label small fw-semibold text-secondary">GitHub Profile</label>
+                <input type="url" class="form-control auth-input" id="github" placeholder="https://github.com/username" pattern="https?://.+" />
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <label class="form-label small fw-semibold text-secondary d-flex justify-content-between">
+                Portfolio Links
+                <button type="button" class="btn btn-sm btn-outline-custom py-0 px-2" id="addLinkBtn">+ Add</button>
+              </label>
+              <ul class="list-unstyled mb-0" id="portfolioList">
+                <li class="mb-2"><input type="url" class="form-control auth-input" placeholder="https://yourportfolio.com" pattern="https?://.+" /></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="text-end">
+            <button type="submit" class="btn btn-primary-custom px-5 py-2">💾 Save Profile Changes</button>
+          </div>
+        </div>
+
+        <!-- Sidebar Column -->
+        <div class="col-lg-4">
+          <!-- Skills Section -->
+          <div class="glass-panel p-4 mb-4">
+            <h6 class="fw-bold mb-3 d-flex justify-content-between align-items-center">
+              Top Skills <button type="button" class="btn btn-sm text-accent" style="color: var(--accent-primary);">✎</button>
+            </h6>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>JavaScript / TypeScript</span><span>90%</span>
+              </div>
+              <div class="progress" style="height: 6px; background: var(--bg-input);">
+                <div class="progress-bar" style="width: 90%; background: var(--accent-primary);"></div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>React.js</span><span>85%</span>
+              </div>
+              <div class="progress" style="height: 6px; background: var(--bg-input);">
+                <div class="progress-bar" style="width: 85%; background: var(--accent-primary);"></div>
+              </div>
+            </div>
+
+            <div class="mb-0">
+              <div class="d-flex justify-content-between small fw-semibold mb-1">
+                <span>Node.js / Express</span><span>70%</span>
+              </div>
+              <div class="progress" style="height: 6px; background: var(--bg-input);">
+                <div class="progress-bar" style="width: 70%; background: var(--accent-secondary);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Achievements -->
+          <div class="glass-panel p-4 mb-4">
+            <h6 class="fw-bold mb-3">Achievements & Certs</h6>
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="bg-input rounded p-2 text-center" style="background: var(--bg-input); width: 48px; height: 48px; font-size: 1.2rem;">🏆</div>
+              <div>
+                <p class="fw-semibold mb-0 small">AWS Cloud Practitioner</p>
+                <small class="text-secondary" style="font-size: 0.75rem;">Issued: Jan 2026</small>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <div class="bg-input rounded p-2 text-center" style="background: var(--bg-input); width: 48px; height: 48px; font-size: 1.2rem;">🏅</div>
+              <div>
+                <p class="fw-semibold mb-0 small">Hackathon Winner 2025</p>
+                <small class="text-secondary" style="font-size: 0.75rem;">Global Tech Summit</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Timeline -->
+          <div class="glass-panel p-4">
+            <h6 class="fw-bold mb-4">Recent Activity</h6>
+            <div class="timeline-item">
+              <p class="fw-semibold mb-0 small">Applied to Google</p>
+              <small class="text-secondary" style="font-size: 0.75rem;">Software Engineering Intern • 2 days ago</small>
+            </div>
+            <div class="timeline-item">
+              <p class="fw-semibold mb-0 small">Completed Quiz</p>
+              <small class="text-secondary" style="font-size: 0.75rem;">Algorithms (Score: 9/10) • 4 days ago</small>
+            </div>
+            <div class="timeline-item">
+              <p class="fw-semibold mb-0 small">Profile Updated</p>
+              <small class="text-secondary" style="font-size: 0.75rem;">Added new Resume • 1 week ago</small>
+            </div>
+          </div>
+
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Primary Email</label>
-        <input type="email" class="form-control" id="email" required />
-        <div class="invalid-feedback">Enter a valid email.</div>
-      </div>
-      <div class="mb-3">
-        <label for="altEmail" class="form-label">Alternate Email</label>
-        <input type="email" class="form-control" id="altEmail" />
-        <div class="invalid-feedback">Enter a valid alternate email.</div>
-      </div>
-      <div class="mb-3">
-        <label for="phone" class="form-label">Phone Number</label>
-        <input type="tel" class="form-control" id="phone" pattern="\\+?\d{10,15}" />
-        <div class="invalid-feedback">Enter a valid phone number.</div>
-      </div>
-      <div class="mb-3 position-relative">
-        <label for="password" class="form-label">Change Password</label>
-        <input type="password" class="form-control" id="password" placeholder="New password" minlength="6" />
-        <span class="toggle-password" id="togglePwd">👁️</span>
-        <div class="strength-meter" id="strengthMeter"><div></div></div>
-        <div class="invalid-feedback">Password must be at least 6 characters.</div>
-      </div>
-      <div class="mb-3">
-        <label for="resume" class="form-label">Upload Resume</label>
-        <div id="resumeDrop" class="form-control p-4 text-center">Drag & Drop resume here<br/>or click to select</div>
-        <input type="file" class="form-control-file d-none" id="resume" accept=".pdf,.doc,.docx" required />
-        <div class="invalid-feedback">Please upload your resume.</div>
-      </div>
-      <div class="mb-3">
-        <label for="linkedin" class="form-label">LinkedIn Profile</label>
-        <input type="url" class="form-control" id="linkedin" pattern="https?://.+" />
-        <div class="invalid-feedback">Enter a valid URL.</div>
-      </div>
-      <div class="mb-3">
-        <label for="github" class="form-label">GitHub Profile</label>
-        <input type="url" class="form-control" id="github" pattern="https?://.+" />
-        <div class="invalid-feedback">Enter a valid URL.</div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Portfolio Links</label>
-        <ul class="link-list" id="portfolioList">
-          <li><input type="url" class="form-control" placeholder="https://yourportfolio.com" pattern="https?://.+" /></li>
-        </ul>
-        <button type="button" class="btn btn-sm btn-outline-secondary" id="addLinkBtn">+ Add Link</button>
-      </div>
-      <button type="submit" class="btn btn-primary btn-save">💾 Save Changes</button>
     </form>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
   <script>
     // Drag & Drop for Image
     const imgDrop = document.getElementById('imgDrop');
     const imageInput = document.getElementById('imageInput');
-    imgDrop.addEventListener('dragover', e => { e.preventDefault(); imgDrop.classList.add('dragover'); });
-    imgDrop.addEventListener('dragleave', () => imgDrop.classList.remove('dragover'));
+    imgDrop.addEventListener('click', () => imageInput.click());
+    imgDrop.addEventListener('dragover', e => { e.preventDefault(); imgDrop.style.opacity = '0.8'; });
+    imgDrop.addEventListener('dragleave', () => imgDrop.style.opacity = '1');
     imgDrop.addEventListener('drop', e => {
-      e.preventDefault(); imgDrop.classList.remove('dragover');
+      e.preventDefault(); imgDrop.style.opacity = '1';
       const file = e.dataTransfer.files[0]; imageInput.files = e.dataTransfer.files; previewImage(file);
     });
     imageInput.addEventListener('change', e => previewImage(e.target.files[0]));
     function previewImage(file) {
-      if (!file) return; const reader = new FileReader(); reader.onload = () => document.getElementById('profileImage').src = reader.result; reader.readAsDataURL(file);
+      if (!file) return; 
+      const reader = new FileReader(); 
+      reader.onload = () => document.getElementById('profileImage').src = reader.result; 
+      reader.readAsDataURL(file);
     }
 
     // Drag & Drop for Resume
@@ -279,65 +316,131 @@
     resumeDrop.addEventListener('dragleave', () => resumeDrop.classList.remove('border-primary'));
     resumeDrop.addEventListener('drop', e => {
       e.preventDefault(); resumeDrop.classList.remove('border-primary');
-      resumeInput.files = e.dataTransfer.files; resumeDrop.textContent = resumeInput.files[0].name;
+      resumeInput.files = e.dataTransfer.files; 
+      resumeDrop.innerHTML = `<p class="mb-1" style="font-size: 2rem;">✅</p><p class="mb-0 fw-semibold text-success">${resumeInput.files[0].name}</p>`;
+    });
+    resumeInput.addEventListener('change', e => {
+      if(e.target.files[0]) {
+        resumeDrop.innerHTML = `<p class="mb-1" style="font-size: 2rem;">✅</p><p class="mb-0 fw-semibold text-success">${e.target.files[0].name}</p>`;
+      }
     });
 
     // Password toggle and strength meter
     const pwd = document.getElementById('password');
     const togglePwd = document.getElementById('togglePwd');
-    const meterBar = document.querySelector('#strengthMeter div');
-    togglePwd.addEventListener('click', () => pwd.type = pwd.type === 'password' ? 'text' : 'password');
+    const meterBar = document.getElementById('strengthMeterBar');
+    
+    togglePwd.addEventListener('click', () => {
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+      togglePwd.textContent = pwd.type === 'password' ? '👁️' : '🙈';
+    });
+    
     pwd.addEventListener('input', () => {
       const val = pwd.value; let strength = 0;
       if (val.length >= 6) strength += 33;
       if (/[A-Z]/.test(val)) strength += 33;
       if (/\d/.test(val)) strength += 34;
+      
       meterBar.style.width = strength + '%';
-      meterBar.style.background = strength > 66 ? 'green' : strength > 33 ? 'orange' : 'red';
+      if(strength > 66) meterBar.className = "progress-bar bg-success";
+      else if (strength > 33) meterBar.className = "progress-bar bg-warning";
+      else meterBar.className = "progress-bar bg-danger";
     });
 
     // Portfolio links
     document.getElementById('addLinkBtn').addEventListener('click', () => {
       const ul = document.getElementById('portfolioList');
       const li = document.createElement('li');
-      li.innerHTML = '<input type="url" class="form-control mb-2" placeholder="https://yourportfolio.com" pattern="https?://.+" />';
+      li.className = "mb-2";
+      li.innerHTML = '<input type="url" class="form-control auth-input" placeholder="https://yourportfolio.com" pattern="https?://.+" />';
       ul.appendChild(li);
     });
 
-    // Form validation & persistence & backend POST
+    // Form validation & persistence & backend PUT
     const form = document.getElementById('profileForm');
     form.addEventListener('submit', async e => {
       e.preventDefault();
       if (!form.checkValidity()) { form.classList.add('was-validated'); return; }
 
-      // Prepare data
-      const formData = new FormData(form);
-      formData.append('image', imageInput.files[0]);
-      formData.append('resume', resumeInput.files[0]);
-      const links = [...document.querySelectorAll('#portfolioList input')].map(i => i.value).filter(Boolean);
-      formData.append('portfolio', JSON.stringify(links));
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...`;
+      submitBtn.disabled = true;
 
-      // Persist locally
-      const profileData = Object.fromEntries(formData);
-      localStorage.setItem('userProfile', JSON.stringify(profileData));
+      const portfolioLinks = [...document.querySelectorAll('#portfolioList input')].map(i => i.value).filter(Boolean);
+      
+      const payload = {
+        name: document.getElementById('name').value,
+        linkedin_url: document.getElementById('linkedin').value,
+        github_url: document.getElementById('github').value,
+        portfolio_url: JSON.stringify(portfolioLinks),
+        skills: "" // Add skills gathering if UI is editable, for now string
+      };
 
-      // Send to backend
       try {
-        const res = await fetch('/api/profile', { method: 'POST', body: formData });
+        const token = localStorage.getItem('token');
+        const res = await fetch('http://127.0.0.1:3000/api/profile', { 
+          method: 'PUT', 
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(payload) 
+        });
+        
         if (!res.ok) throw new Error('Save failed');
-        alert('Profile updated successfully!');
-        window.location.href = 'index1.html';
+        window.showToast("Profile updated successfully!", "success");
       } catch (err) {
-        alert(err.message);
+        window.showToast(err.message || "Failed to update profile", "error");
+      } finally {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
       }
     });
 
-    // Load saved data
-    window.addEventListener('load', () => {
-      const saved = JSON.parse(localStorage.getItem('userProfile') || '{}');
-      for (let key in saved) if (key !== 'image' && key !== 'resume') {
-        const el = document.getElementById(key);
-        if (el) el.value = saved[key];
+    // Load saved data securely
+    window.addEventListener('load', async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = "signin.html";
+        return;
+      }
+
+      try {
+        const res = await fetch('http://127.0.0.1:3000/api/profile', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+
+        if (res.status === 401 || res.status === 403) {
+          localStorage.removeItem('token');
+          window.location.href = "signin.html";
+          return;
+        }
+
+        const data = await res.json();
+        if (data.name) document.getElementById('name').value = data.name;
+        if (data.email) {
+          document.getElementById('email').value = data.email;
+          document.getElementById('email').disabled = true; // Email shouldn't be editable here
+        }
+        if (data.linkedin_url) document.getElementById('linkedin').value = data.linkedin_url;
+        if (data.github_url) document.getElementById('github').value = data.github_url;
+        
+        if (data.portfolio_url) {
+          try {
+            const links = JSON.parse(data.portfolio_url);
+            const ul = document.getElementById('portfolioList');
+            ul.innerHTML = '';
+            links.forEach(link => {
+              const li = document.createElement('li');
+              li.className = "mb-2";
+              li.innerHTML = `<input type="url" class="form-control auth-input" value="${link}" />`;
+              ul.appendChild(li);
+            });
+          } catch(e) {}
+        }
+      } catch (err) {
+        console.error("Failed to load profile", err);
       }
     });
   </script>

@@ -1,428 +1,455 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GradTrack - Quiz</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Learning & Quizzes - GradTrack</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    body {
-      background: linear-gradient(to right, #e3f2fd, #f8bbd0);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding-bottom: 50px;
+    .quiz-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      height: 100%;
     }
-    .navbar-brand img {
-      height: 40px;
-      margin-right: 10px;
+    .quiz-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-primary);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
-    .quiz-container {
-      background: white;
-      padding: 32px 28px;
+    .quiz-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1rem;
+      background: rgba(59, 130, 246, 0.1);
       border-radius: 16px;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.13);
-      max-width: 800px;
-      margin: auto;
-      margin-top: 40px;
-      margin-bottom: 40px;
-      transition: all 0.3s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
     }
-    .question {
-      font-size: 1.25rem;
-      font-weight: 500;
-      margin-bottom: 18px;
+    
+    .quiz-ui-container {
+      max-width: 700px;
+      margin: 0 auto;
     }
     .option-btn {
+      display: block;
       width: 100%;
       text-align: left;
-      margin-bottom: 10px;
-      font-size: 1.08rem;
-      border-radius: 8px;
-      transition: background 0.2s, color 0.2s;
-    }
-    .option-btn:hover, .option-btn:focus {
-      background: #e3f2fd;
-      color: #1976d2;
-      font-weight: 600;
-    }
-    .category-img {
-      height: 54px;
-      margin-bottom: 10px;
-    }
-    .category-card {
+      padding: 1rem 1.5rem;
+      margin-bottom: 0.75rem;
+      background: var(--bg-input);
+      border: 2px solid var(--border-color);
+      color: var(--text-primary);
       border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-      cursor: pointer;
-      transition: transform 0.17s, box-shadow 0.17s;
+      transition: all 0.2s;
+      font-weight: 500;
     }
-    .category-card:hover {
-      transform: translateY(-6px) scale(1.03);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.14);
-      background: #f1f8e9;
+    .option-btn:hover {
+      border-color: var(--accent-primary);
+      background: rgba(59, 130, 246, 0.05);
     }
-    #result {
-      font-size: 1.1rem;
+    .option-btn.correct {
+      background: rgba(16, 185, 129, 0.1) !important;
+      border-color: var(--success) !important;
+      color: var(--success) !important;
     }
-    footer {
-      background: #212529;
-      color: #fff;
-      text-align: center;
-      padding: 18px 0 8px 0;
-      font-size: 0.98rem;
-      margin-top: 40px;
+    .option-btn.incorrect {
+      background: rgba(239, 68, 68, 0.1) !important;
+      border-color: var(--danger) !important;
+      color: var(--danger) !important;
     }
-    .footer-link {
-      color: #ffffffb3;
-      text-decoration: none;
+    
+    .score-circle-large {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      position: relative;
     }
-    .footer-link:hover {
-      color: #fff;
-      text-decoration: underline;
+    .score-circle-large::after {
+      content: "";
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      background: var(--bg-card);
+      border-radius: 50%;
+    }
+    .score-large-text {
+      position: relative;
+      z-index: 1;
+      font-size: 2.5rem;
+      font-weight: 800;
     }
   </style>
 </head>
 <body>
+  <div id="navbar-container"></div>
 
-<!-- Navbar -->
+  <div class="main-content">
+    
+    <!-- Dashboard & Categories Section -->
+    <div id="categorySection">
+      <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+          <h2 class="fw-bold mb-1">Learning & Quizzes 🧠</h2>
+          <p class="text-secondary mb-0">Test your knowledge across various domains to improve your readiness score.</p>
+        </div>
+      </div>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="index1.html">
-      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="GradTrack Logo">
-      <span class="fw-bold fs-4">GradTrack</span>
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fs-6">
-        <li class="nav-item">
-          <a class="nav-link" href="index1.html">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="quiz.html">Quiz</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="jobs.html">Jobs</a></li>
+      <!-- Analytics Row -->
+      <div class="row g-4 mb-5">
+        <div class="col-md-4">
+          <div class="glass-panel p-4 d-flex align-items-center gap-3 h-100">
+            <div class="bg-primary bg-opacity-10 text-primary rounded p-3 fs-3">📊</div>
+            <div>
+              <p class="text-secondary small fw-bold mb-1 text-uppercase">Total Quizzes</p>
+              <h3 class="fw-bold mb-0" id="statTotal">0</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="glass-panel p-4 d-flex align-items-center gap-3 h-100">
+            <div class="bg-success bg-opacity-10 text-success rounded p-3 fs-3">🎯</div>
+            <div>
+              <p class="text-secondary small fw-bold mb-1 text-uppercase">Average Score</p>
+              <h3 class="fw-bold mb-0" id="statAvg">0%</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="glass-panel p-4 d-flex align-items-center gap-3 h-100">
+            <div class="bg-warning bg-opacity-10 text-warning rounded p-3 fs-3">🏆</div>
+            <div>
+              <p class="text-secondary small fw-bold mb-1 text-uppercase">Best Domain</p>
+              <h3 class="fw-bold mb-0 text-truncate" id="statBest" style="max-width: 150px;">None</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h5 class="fw-bold mb-4">Select a Domain</h5>
+      <div class="row g-4">
+        <div class="col-xl-3 col-lg-4 col-md-6" onclick="startQuiz('csBasics')">
+          <div class="quiz-card">
+            <div class="quiz-icon">💻</div>
+            <h6 class="fw-bold">CS Basics</h6>
+            <p class="text-secondary small mb-0">Core computing concepts.</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6" onclick="startQuiz('algorithms')">
+          <div class="quiz-card">
+            <div class="quiz-icon">⚙️</div>
+            <h6 class="fw-bold">Algorithms</h6>
+            <p class="text-secondary small mb-0">Problem-solving skills.</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6" onclick="startQuiz('ai')">
+          <div class="quiz-card">
+            <div class="quiz-icon">🤖</div>
+            <h6 class="fw-bold">AI & ML</h6>
+            <p class="text-secondary small mb-0">Artificial Intelligence basics.</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6" onclick="startQuiz('databases')">
+          <div class="quiz-card">
+            <div class="quiz-icon">🗄️</div>
+            <h6 class="fw-bold">Databases</h6>
+            <p class="text-secondary small mb-0">SQL and NoSQL concepts.</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6" onclick="startQuiz('fullstack')">
+          <div class="quiz-card">
+            <div class="quiz-icon">🌐</div>
+            <h6 class="fw-bold">Full Stack</h6>
+            <p class="text-secondary small mb-0">Front to back web dev.</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6" onclick="startQuiz('cloud')">
+          <div class="quiz-card">
+            <div class="quiz-icon">☁️</div>
+            <h6 class="fw-bold">Cloud Computing</h6>
+            <p class="text-secondary small mb-0">AWS, Azure, and cloud tech.</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6" onclick="startQuiz('cyber')">
+          <div class="quiz-card">
+            <div class="quiz-icon">🛡️</div>
+            <h6 class="fw-bold">Cybersecurity</h6>
+            <p class="text-secondary small mb-0">Security essentials.</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6" onclick="startQuiz('blockchain')">
+          <div class="quiz-card">
+            <div class="quiz-icon">🔗</div>
+            <h6 class="fw-bold">Blockchain</h6>
+            <p class="text-secondary small mb-0">Decentralized ledgers.</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6" onclick="startQuiz('aptitude')">
+          <div class="quiz-card">
+            <div class="quiz-icon">🧠</div>
+            <h6 class="fw-bold">Aptitude</h6>
+            <p class="text-secondary small mb-0">Logic and math skills.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recent History (Injected by JS) -->
+      <div class="mt-5">
+        <h5 class="fw-bold mb-3">Recent Attempts</h5>
+        <div class="glass-panel" id="historyContainer">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz Taking Section -->
+    <div class="quiz-ui-container d-none" id="quizSection">
+      <div class="glass-panel p-4 p-md-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h4 class="fw-bold mb-0 text-gradient" id="quizTitle"></h4>
+          <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2" id="quizProgressText">Question 1/5</span>
+        </div>
         
-        <li class="nav-item">
-          <a class="nav-link" href="guide.html">Guide</a>
-        </li>
-         <li class="nav-item">
-            <a class="nav-link" href="interview.html">Placement</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="res.html">Resources</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="connect.html">Connect</a>
-          </li>
-      </ul>
-      <div class="ms-lg-3" id="navbarAuth">
-        <!-- Auth buttons will be inserted here by JS -->
-      </div>
-    </div>
-  </div>
-</nav>
+        <div class="progress mb-4" style="height: 6px; background: var(--bg-input);">
+          <div class="progress-bar bg-primary" id="quizProgressBar" style="width: 20%; transition: width 0.3s ease;"></div>
+        </div>
 
-<!-- Quiz Categories Section -->
-
-<div id="categorySection" class="quiz-container">
-  <h2 class="text-center mb-4">📚 Select a Quiz Category</h2>
-  <div class="row g-4">
-
-    <div class="col-md-6 col-lg-3" onclick="startQuiz('csBasics')">
-      <div class="card category-card text-center p-3">
-        <img src="https://cdn-icons-png.flaticon.com/512/2721/2721273.png" class="category-img mx-auto mb-2" alt="CS">
-        <h5>CS Basics</h5>
-        <p class="text-muted small">Core computing concepts every techie should know.</p>
+        <div id="quiz"></div>
+        <div id="result" class="mt-4 fw-bold text-center" style="min-height: 24px; transition: all 0.3s;"></div>
       </div>
     </div>
 
-    <div class="col-md-6 col-lg-3" onclick="startQuiz('algorithms')">
-      <div class="card category-card text-center p-3">
-        <img src="https://cdn-icons-png.flaticon.com/512/189/189001.png" class="category-img mx-auto mb-2" alt="Algo">
-        <h5>Algorithms</h5>
-        <p class="text-muted small">Optimize your problem-solving and code skills.</p>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-3" onclick="startQuiz('ai')">
-      <div class="card category-card text-center p-3">
-        <img src="https://cdn-icons-png.flaticon.com/512/1532/1532815.png" class="category-img mx-auto mb-2" alt="AI">
-        <h5>AI & ML</h5>
-        <p class="text-muted small">Test your knowledge of Artificial Intelligence basics.</p>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-3" onclick="startQuiz('databases')">
-      <div class="card category-card text-center p-3">
-        <img src="https://cdn-icons-png.flaticon.com/512/906/906334.png" class="category-img mx-auto mb-2" alt="DB">
-        <h5>Databases</h5>
-        <p class="text-muted small">Master SQL and NoSQL concepts for modern apps.</p>
-      </div>
-    </div>
-
-    <!-- New categories -->
-  <div class="col-md-6 col-lg-3" onclick="startQuiz('fullstack')">
-    <div class="card category-card text-center p-3">
-      <img src="https://cdn-icons-png.flaticon.com/512/906/906175.png" class="category-img mx-auto mb-2" alt="Full Stack">
-      <h5>Full Stack</h5>
-      <p class="text-muted small">Front to back — test your web dev skills!</p>
-    </div>
   </div>
-  <div class="col-md-6 col-lg-3" onclick="startQuiz('cloud')">
-    <div class="card category-card text-center p-3">
-      <img src="https://cdn-icons-png.flaticon.com/512/4149/4149653.png" class="category-img mx-auto mb-2" alt="Cloud">
-      <h5>Cloud Computing</h5>
-      <p class="text-muted small">Explore AWS, Azure, and modern cloud tech.</p>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3" onclick="startQuiz('cyber')">
-    <div class="card category-card text-center p-3">
-      <img src="https://cdn-icons-png.flaticon.com/512/3123/3123667.png" class="category-img mx-auto mb-2" alt="Cybersecurity">
-      <h5>Cybersecurity</h5>
-      <p class="text-muted small">Security essentials to keep data safe.</p>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3" onclick="startQuiz('blockchain')">
-    <div class="card category-card text-center p-3">
-      <img src="https://cdn-icons-png.flaticon.com/512/4275/4275492.png" class="category-img mx-auto mb-2" alt="Blockchain">
-      <h5>Blockchain</h5>
-      <p class="text-muted small">Understand the tech behind Bitcoin & beyond.</p>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3" onclick="startQuiz('aptitude')">
-    <div class="card category-card text-center p-3">
-      <img src="https://cdn-icons-png.flaticon.com/512/411/411800.png" class="category-img mx-auto mb-2" alt="Aptitude">
-      <h5>Aptitude</h5>
-      <p class="text-muted small">Sharpen your logic and problem-solving skills.</p>
-    </div>
-  </div>
-</div>
-  </div>
-</div>
 
-
-
-  
-
-<!-- Quiz Section -->
-
-<div class="quiz-container d-none" id="quizSection">
-  <h2 class="text-center mb-4 text-info" id="quizTitle"></h2>
-  <div id="quiz"></div>
-  <div id="result" class="mt-3 fw-bold text-center"></div>
-</div>
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-  // Auth buttons logic (copy from your home page for consistency)
-  const navbarAuth = document.getElementById("navbarAuth");
-  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
-  if (isLoggedIn) {
-    navbarAuth.innerHTML = `
-      <a href="profile.html" class="btn btn-outline-light me-2">👤 Profile</a>
-      <button class="btn btn-danger" id="logoutBtn">🚪 Logout</button>
-    `;
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      localStorage.removeItem("loggedIn");
-      window.location.href = "index1.html";
-    });
-  } else {
-    navbarAuth.innerHTML = `
-      <a href="signin.html" class="btn btn-outline-light me-2">Sign In</a>
-      <a href="signup.html" class="btn btn-success">Sign Up</a>
-    `;
-  }
-
-  // Quiz logic (unchanged from your code)
-  const quizzes = {
-    csBasics: {
-      title: 'Computer Science Basics',
-      questions: [
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    const quizzes = {
+      csBasics: { title: 'Computer Science Basics', questions: [
         { question: 'What does CPU stand for?', options: ['Central Process Unit', 'Central Processing Unit', 'Computer Personal Unit', 'Central Processor Utility'], answer: 1 },
         { question: 'What is the full form of RAM?', options: ['Random Access Memory', 'Read Access Memory', 'Run Access Memory', 'Random All Memory'], answer: 0 },
         { question: 'Which device is the brain of the computer?', options: ['RAM', 'Hard Disk', 'CPU', 'Monitor'], answer: 2 },
         { question: 'Which language is closest to machine language?', options: ['C', 'Python', 'Assembly', 'Java'], answer: 2 },
         { question: 'What is the primary function of an operating system?', options: ['Run software', 'Manage hardware', 'Control access', 'All of the above'], answer: 3 }
-      ]
-    },
-    algorithms: {
-      title: 'Algorithms',
-      questions: [
+      ]},
+      algorithms: { title: 'Algorithms', questions: [
         { question: 'What is the time complexity of binary search?', options: ['O(n)', 'O(log n)', 'O(n log n)', 'O(1)'], answer: 1 },
         { question: 'Which sorting algorithm is fastest on average?', options: ['Bubble Sort', 'Selection Sort', 'Quick Sort', 'Insertion Sort'], answer: 2 },
         { question: 'Which algorithm is used to find shortest path in a graph?', options: ["DFS", "Dijkstra's", "Kruskal's", "Prim's"], answer: 1 },
         { question: 'Merge Sort has worst-case time complexity of?', options: ['O(n)', 'O(log n)', 'O(n log n)', 'O(n^2)'], answer: 2 },
         { question: 'Which data structure is used in BFS?', options: ['Stack', 'Queue', 'Linked List', 'Tree'], answer: 1 }
-      ]
-    },
-    ai: {
-      title: 'Artificial Intelligence',
-      questions: [
+      ]},
+      ai: { title: 'Artificial Intelligence', questions: [
         { question: 'Who is known as the father of AI?', options: ['Alan Turing', 'John McCarthy', 'Geoffrey Hinton', 'Andrew Ng'], answer: 1 },
         { question: 'Which technique mimics the human brain?', options: ['Linear Regression', 'Decision Trees', 'Neural Networks', 'KNN'], answer: 2 },
         { question: 'Which is a branch of AI?', options: ['ML', 'IoT', 'HTML', 'CSS'], answer: 0 },
         { question: 'What is supervised learning?', options: ['Learning with labeled data', 'Unlabeled data', 'Self-learning', 'None'], answer: 0 },
         { question: 'Which algorithm is used for classification?', options: ['KNN', 'K-means', 'PCA', 'Apriori'], answer: 0 }
-      ]
-    },
-    databases: {
-      title: 'Databases',
-      questions: [
+      ]},
+      databases: { title: 'Databases', questions: [
         { question: 'What does SQL stand for?', options: ['Structured Query Language', 'Simple Query Language', 'Sequential Query Language', 'Structured Question Language'], answer: 0 },
         { question: 'Which is a NoSQL database?', options: ['MySQL', 'PostgreSQL', 'MongoDB', 'Oracle'], answer: 2 },
         { question: 'Primary key must be?', options: ['Unique', 'Duplicate', 'Null', 'Optional'], answer: 0 },
         { question: 'What is normalization?', options: ['Adding redundancy', 'Minimizing redundancy', 'Deleting data', 'Query optimization'], answer: 1 },
         { question: 'Which command is used to retrieve data?', options: ['INSERT', 'DELETE', 'SELECT', 'UPDATE'], answer: 2 }
-      ]
-    },
-    fullstack: {
-  title: 'Full Stack Development',
-  questions: [
-    { question: 'What does HTML stand for?', options: ['Hyper Trainer Marking Language', 'Hyper Text Markup Language', 'Hyper Text Marketing Language', 'Hyper Transfer Markup Language'], answer: 1 },
-    { question: 'Which is a frontend framework?', options: ['Django', 'Express', 'React', 'Flask'], answer: 2 },
-    { question: 'Which language is commonly used on the backend?', options: ['CSS', 'Python', 'HTML', 'SASS'], answer: 1 },
-    { question: 'What is the role of REST API?', options: ['Design layout', 'Data exchange', 'Encryption', 'Session management'], answer: 1 },
-    { question: 'Which database is NoSQL?', options: ['MySQL', 'SQLite', 'PostgreSQL', 'MongoDB'], answer: 3 }
-  ]
-},
-cloud: {
-  title: 'Cloud Computing',
-  questions: [
-    { question: 'What does IaaS stand for?', options: ['Internet as a Service', 'Infrastructure as a Service', 'Instance as a Software', 'Interface as a System'], answer: 1 },
-    { question: 'Which company provides AWS?', options: ['Google', 'Microsoft', 'Amazon', 'IBM'], answer: 2 },
-    { question: 'What is the main benefit of cloud computing?', options: ['Slower access', 'High cost', 'Scalability', 'Manual setup'], answer: 2 },
-    { question: 'Which is a cloud deployment model?', options: ['Dedicated', 'Private', 'Manual', 'Direct'], answer: 1 },
-    { question: 'Which is a serverless compute service?', options: ['EC2', 'S3', 'Lambda', 'VPC'], answer: 2 }
-  ]
-},
-cyber: {
-  title: 'Cybersecurity',
-  questions: [
-    { question: 'What does HTTPS stand for?', options: ['Hyper Transfer Protocol Secure', 'HyperText Transfer Protocol Secure', 'HyperText Test Protocol Standard', 'HyperTool Transfer Protocol Secure'], answer: 1 },
-    { question: 'Which is an example of malware?', options: ['Firewall', 'Trojan', 'Captcha', 'Router'], answer: 1 },
-    { question: 'Which protocol is used for secure communication?', options: ['HTTP', 'FTP', 'SSH', 'POP'], answer: 2 },
-    { question: 'What is phishing?', options: ['Data analysis', 'Hacking tool', 'Fake communication to steal data', 'Backup process'], answer: 2 },
-    { question: 'Which of these enhances password security?', options: ['Plain text', 'Short length', 'Hashing', 'Reuse'], answer: 2 }
-  ]
-},
-blockchain: {
-  title: 'Blockchain',
-  questions: [
-    { question: 'What is a blockchain?', options: ['Centralized database', 'Decentralized ledger', 'Single user file', 'Encrypted zip'], answer: 1 },
-    { question: 'Which cryptocurrency runs on blockchain?', options: ['PayPal', 'Ethereum', 'Stripe', 'Visa'], answer: 1 },
-    { question: 'What ensures blockchain security?', options: ['Central servers', 'Encryption & consensus', 'Third-party apps', 'Data loss'], answer: 1 },
-    { question: 'What is a smart contract?', options: ['PDF document', 'Automated agreement on blockchain', 'Legal form', 'Encrypted email'], answer: 1 },
-    { question: 'What does NFT stand for?', options: ['New File Tracker', 'Non-Fungible Token', 'Node Form Transaction', 'None'], answer: 1 }
-  ]
-},
-aptitude: {
-  title: 'Aptitude',
-  questions: [
-    { question: 'What is 25% of 200?', options: ['25', '50', '75', '100'], answer: 1 },
-    { question: 'If 3x = 12, what is x?', options: ['4', '3', '6', '9'], answer: 0 },
-    { question: 'What comes next: 2, 4, 8, 16, ?', options: ['18', '32', '24', '20'], answer: 1 },
-    { question: 'Speed = Distance / ?', options: ['Area', 'Height', 'Time', 'Volume'], answer: 2 },
-    { question: 'If A = 1, B = 2, what is J?', options: ['10', '5', '20', '15'], answer: 0 }
-  ]
-}
+      ]},
+      fullstack: { title: 'Full Stack Development', questions: [
+        { question: 'What does HTML stand for?', options: ['Hyper Trainer Marking Language', 'Hyper Text Markup Language', 'Hyper Text Marketing Language', 'Hyper Transfer Markup Language'], answer: 1 },
+        { question: 'Which is a frontend framework?', options: ['Django', 'Express', 'React', 'Flask'], answer: 2 },
+        { question: 'Which language is commonly used on the backend?', options: ['CSS', 'Python', 'HTML', 'SASS'], answer: 1 },
+        { question: 'What is the role of REST API?', options: ['Design layout', 'Data exchange', 'Encryption', 'Session management'], answer: 1 },
+        { question: 'Which database is NoSQL?', options: ['MySQL', 'SQLite', 'PostgreSQL', 'MongoDB'], answer: 3 }
+      ]},
+      cloud: { title: 'Cloud Computing', questions: [
+        { question: 'What does IaaS stand for?', options: ['Internet as a Service', 'Infrastructure as a Service', 'Instance as a Software', 'Interface as a System'], answer: 1 },
+        { question: 'Which company provides AWS?', options: ['Google', 'Microsoft', 'Amazon', 'IBM'], answer: 2 },
+        { question: 'What is the main benefit of cloud computing?', options: ['Slower access', 'High cost', 'Scalability', 'Manual setup'], answer: 2 },
+        { question: 'Which is a cloud deployment model?', options: ['Dedicated', 'Private', 'Manual', 'Direct'], answer: 1 },
+        { question: 'Which is a serverless compute service?', options: ['EC2', 'S3', 'Lambda', 'VPC'], answer: 2 }
+      ]},
+      cyber: { title: 'Cybersecurity', questions: [
+        { question: 'What does HTTPS stand for?', options: ['Hyper Transfer Protocol Secure', 'HyperText Transfer Protocol Secure', 'HyperText Test Protocol Standard', 'HyperTool Transfer Protocol Secure'], answer: 1 },
+        { question: 'Which is an example of malware?', options: ['Firewall', 'Trojan', 'Captcha', 'Router'], answer: 1 },
+        { question: 'Which protocol is used for secure communication?', options: ['HTTP', 'FTP', 'SSH', 'POP'], answer: 2 },
+        { question: 'What is phishing?', options: ['Data analysis', 'Hacking tool', 'Fake communication to steal data', 'Backup process'], answer: 2 },
+        { question: 'Which of these enhances password security?', options: ['Plain text', 'Short length', 'Hashing', 'Reuse'], answer: 2 }
+      ]},
+      blockchain: { title: 'Blockchain', questions: [
+        { question: 'What is a blockchain?', options: ['Centralized database', 'Decentralized ledger', 'Single user file', 'Encrypted zip'], answer: 1 },
+        { question: 'Which cryptocurrency runs on blockchain?', options: ['PayPal', 'Ethereum', 'Stripe', 'Visa'], answer: 1 },
+        { question: 'What ensures blockchain security?', options: ['Central servers', 'Encryption & consensus', 'Third-party apps', 'Data loss'], answer: 1 },
+        { question: 'What is a smart contract?', options: ['PDF document', 'Automated agreement on blockchain', 'Legal form', 'Encrypted email'], answer: 1 },
+        { question: 'What does NFT stand for?', options: ['New File Tracker', 'Non-Fungible Token', 'Node Form Transaction', 'None'], answer: 1 }
+      ]},
+      aptitude: { title: 'Aptitude', questions: [
+        { question: 'What is 25% of 200?', options: ['25', '50', '75', '100'], answer: 1 },
+        { question: 'If 3x = 12, what is x?', options: ['4', '3', '6', '9'], answer: 0 },
+        { question: 'What comes next: 2, 4, 8, 16, ?', options: ['18', '32', '24', '20'], answer: 1 },
+        { question: 'Speed = Distance / ?', options: ['Area', 'Height', 'Time', 'Volume'], answer: 2 },
+        { question: 'If A = 1, B = 2, what is J?', options: ['10', '5', '20', '15'], answer: 0 }
+      ]}
+    };
 
-  };
+    let current = 0;
+    let score = 0;
+    let currentQuiz = null;
+    let quizHistory = JSON.parse(localStorage.getItem('quizHistory') || '[]');
 
-  let current = 0;
-  let score = 0;
-  let currentQuiz = null;
+    function updateDashboard() {
+      if(quizHistory.length === 0) {
+        document.getElementById('historyContainer').innerHTML = `<div class="p-4 text-center text-secondary">No quizzes taken yet. Start learning!</div>`;
+        return;
+      }
+      
+      document.getElementById('statTotal').textContent = quizHistory.length;
+      
+      const totalScore = quizHistory.reduce((acc, q) => acc + (q.score / q.total), 0);
+      const avg = Math.round((totalScore / quizHistory.length) * 100);
+      document.getElementById('statAvg').textContent = `${avg}%`;
 
-  function startQuiz(topic) {
-    currentQuiz = quizzes[topic];
-    if (!currentQuiz) return alert('Quiz data not found.');
+      const domainCounts = {};
+      quizHistory.forEach(q => {
+        domainCounts[q.domain] = (domainCounts[q.domain] || 0) + 1;
+      });
+      const bestDomain = Object.keys(domainCounts).reduce((a, b) => domainCounts[a] > domainCounts[b] ? a : b);
+      document.getElementById('statBest').textContent = bestDomain;
 
-    current = 0;
-    score = 0;
-    document.getElementById('categorySection').classList.add('d-none');
-    document.getElementById('quizSection').classList.remove('d-none');
-    document.getElementById('quizTitle').textContent = currentQuiz.title;
-    loadQuestion();
-  }
-
-  function loadQuestion() {
-    const quiz = document.getElementById('quiz');
-    const q = currentQuiz.questions[current];
-    quiz.innerHTML = `
-      <div class="question">${current + 1}. ${q.question}</div>
-      ${q.options.map((opt, i) =>
-        `<button class="btn btn-outline-primary option-btn my-1" onclick="checkAnswer(${i})">${opt}</button>`
-      ).join('')}
-    `;
-  }
-
-  function checkAnswer(selected) {
-    const result = document.getElementById('result');
-    const correct = currentQuiz.questions[current].answer;
-
-    if (selected === correct) {
-      result.textContent = '✅ Correct!';
-      result.className = 'text-success fw-bold text-center';
-      score++;
-    } else {
-      result.textContent = `❌ Incorrect! Correct Answer: ${currentQuiz.questions[current].options[correct]}`;
-      result.className = 'text-danger fw-bold text-center';
+      const historyHTML = quizHistory.slice().reverse().slice(0, 5).map(q => {
+        const pct = Math.round((q.score / q.total) * 100);
+        const colorClass = pct >= 80 ? 'success' : pct >= 50 ? 'warning' : 'danger';
+        return `
+          <div class="d-flex justify-content-between align-items-center p-3 border-bottom" style="border-color: var(--border-color) !important;">
+            <div>
+              <p class="fw-bold mb-0">${q.domain}</p>
+              <small class="text-secondary">${new Date(q.date).toLocaleDateString()}</small>
+            </div>
+            <div class="badge bg-${colorClass} bg-opacity-25 text-${colorClass} px-3 py-2 fs-6">
+              ${q.score} / ${q.total} (${pct}%)
+            </div>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('historyContainer').innerHTML = historyHTML;
     }
 
-    current++;
-    setTimeout(() => {
-      result.textContent = '';
-      if (current < currentQuiz.questions.length) {
-        loadQuestion();
+    document.addEventListener("DOMContentLoaded", updateDashboard);
+
+    function startQuiz(topic) {
+      currentQuiz = quizzes[topic];
+      if (!currentQuiz) return alert('Quiz data not found.');
+
+      current = 0;
+      score = 0;
+      document.getElementById('categorySection').classList.add('d-none');
+      document.getElementById('quizSection').classList.remove('d-none');
+      document.getElementById('quizTitle').textContent = currentQuiz.title;
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const quizDiv = document.getElementById('quiz');
+      const q = currentQuiz.questions[current];
+      const total = currentQuiz.questions.length;
+      
+      document.getElementById('quizProgressText').textContent = `Question ${current + 1} of ${total}`;
+      document.getElementById('quizProgressBar').style.width = `${((current + 1) / total) * 100}%`;
+
+      quizDiv.innerHTML = `
+        <h5 class="mb-4 lh-base">${current + 1}. ${q.question}</h5>
+        <div class="d-flex flex-column gap-2">
+          ${q.options.map((opt, i) =>
+            `<button class="option-btn" onclick="checkAnswer(this, ${i})"><span class="fw-bold me-2">${String.fromCharCode(65 + i)}.</span> ${opt}</button>`
+          ).join('')}
+        </div>
+      `;
+    }
+
+    function checkAnswer(btn, selected) {
+      // Disable all buttons
+      const buttons = document.querySelectorAll('.option-btn');
+      buttons.forEach(b => b.disabled = true);
+
+      const result = document.getElementById('result');
+      const correct = currentQuiz.questions[current].answer;
+
+      if (selected === correct) {
+        btn.classList.add('correct');
+        result.innerHTML = '✅ Correct!';
+        result.className = 'mt-4 fw-bold text-center text-success';
+        score++;
       } else {
-        showFinalScore();
+        btn.classList.add('incorrect');
+        buttons[correct].classList.add('correct');
+        result.innerHTML = '❌ Incorrect!';
+        result.className = 'mt-4 fw-bold text-center text-danger';
       }
-    }, 1200);
-  }
 
-  function showFinalScore() {
-    const quiz = document.getElementById('quiz');
-    quiz.innerHTML = `
-      <h4 class="text-center text-primary">🎉 You scored ${score} out of ${currentQuiz.questions.length}!</h4>
-      <div class="text-center mt-3">
-        <button class="btn btn-outline-success" onclick="location.reload()">Try Another Quiz</button>
-      </div>
-    `;
-     const user_email = localStorage.getItem('userEmail') || 'guest@example.com'; // Replace with real login
-  const domain_name = currentQuiz.title;
-  const total_questions = currentQuiz.questions.length;
+      current++;
+      setTimeout(() => {
+        result.textContent = '';
+        if (current < currentQuiz.questions.length) {
+          loadQuestion();
+        } else {
+          showFinalScore();
+        }
+      }, 1500);
+    }
 
-  // Send data to backend
-  fetch('http://127.0.0.1:3000/submit-quiz', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      user_email,
-      domain_name,
-      score,
-      total_questions
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    console.log('Score submission response:', data);
-  })
-  .catch(err => {
-    console.error('Score submission error:', err);
-  });
-}
-    
-  
-</script>
+    function showFinalScore() {
+      const total = currentQuiz.questions.length;
+      const pct = Math.round((score / total) * 100);
+      const color = pct >= 80 ? 'var(--success)' : pct >= 50 ? 'var(--warning)' : 'var(--danger)';
+      
+      const quizDiv = document.getElementById('quiz');
+      document.getElementById('quizProgressText').classList.add('d-none');
+      document.getElementById('quizProgressBar').parentElement.classList.add('d-none');
 
+      quizDiv.innerHTML = `
+        <div class="text-center py-4">
+          <h4 class="mb-4">Quiz Completed!</h4>
+          <div class="score-circle-large" style="background: conic-gradient(${color} ${pct}%, var(--bg-input) 0);">
+            <span class="score-large-text" style="color: ${color};">${pct}%</span>
+          </div>
+          <p class="text-secondary mb-4">You scored <strong>${score}</strong> out of <strong>${total}</strong></p>
+          <div class="d-flex justify-content-center gap-3">
+            <button class="btn btn-outline-custom" onclick="location.reload()">Back to Dashboard</button>
+            <button class="btn btn-primary-custom" onclick="startQuiz('${Object.keys(quizzes).find(key => quizzes[key] === currentQuiz)}')">Retry Quiz</button>
+          </div>
+        </div>
+      `;
+
+      // Save to localStorage
+      quizHistory.push({
+        domain: currentQuiz.title,
+        score: score,
+        total: total,
+        date: new Date().toISOString()
+      });
+      localStorage.setItem('quizHistory', JSON.stringify(quizHistory));
+
+      const user_email = localStorage.getItem('userEmail') || 'guest@example.com';
+      fetch('http://127.0.0.1:3000/submit-quiz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_email,
+          domain_name: currentQuiz.title,
+          score,
+          total_questions: total
+        })
+      }).catch(err => console.error('Score submission error:', err));
+    }
+  </script>
 </body>
-</html>  
+</html>

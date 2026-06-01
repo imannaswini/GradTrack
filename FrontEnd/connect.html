@@ -1,437 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Engineering Network Platform</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  
-    <style>
-    .navbar {
-  background-color: #0077b5;
-  padding: 3px 3px;
-  color: white;
-  box-shadow: 0 4px 4px rgba(0,119,181,0.2);
-}
-
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 5px;
-  margin: 0 auto;
-}
-
-.logo {
-  font-weight: bold;
-  font-size: 0.5em;
-  color: white;
-  text-decoration: none;
-}
-
-.nav-links {
-  display: flex;
-  gap: 15px;
-}
-
-.nav-btn {
-  background: none;
-  border: 1.5px solid white;
-  color: white;
-  padding: 6px 6px;
-  border-radius: 6px;
-  cursor: pointer;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.nav-btn:hover {
-  background-color: white;
-  color: #0077b5;
-}
-
-#logoutBtn {
-  border-color: #8b7a7b;
-  color: #a02023;
-}
-
-#logoutBtn {
-  background-color: #e62529;
-  color: white;
-}
-
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            background-color: #222121;
-            color: rgb(230, 220, 220);
-            padding: 10px;
-            text-align: center;
-            margin-bottom: 30px;
-            border-radius: 0 0 12px 12px;
-            box-shadow: 0 4px 12px rgba(0,119,181,0.12);
-        }
-
-        .search-section {
-            margin-bottom: 20px;
-        }
-
-        .search-bar {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .filters {
-            display: flex;
-            gap: 10px;
-            margin: 10px 0 0 0;
-        }
-
-        .filter-select {
-            padding: 9px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: #fff;
-        }
-
-        .professionals-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
-        }
-
-        .profile-card {
-            background-color: white;
-            border-radius: 12px;
-            padding: 24px 20px 20px 20px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            transition: box-shadow 0.2s, transform 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-
-        .profile-card:hover {
-            box-shadow: 0 8px 32px rgba(0,119,181,0.14);
-            transform: translateY(-4px) scale(1.02);
-        }
-
-        .profile-card img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 18px;
-            border: 3px solid #0077b5;
-            object-fit: cover;
-            background: #e0e0e0;
-        }
-
-        .profile-info h3 {
-            color: #0077b5;
-            margin-bottom: 8px;
-            font-size: 1.3em;
-        }
-
-        .profile-info p {
-            margin-bottom: 6px;
-            color: #444;
-        }
-
-        .contact-info {
-            margin-top: 12px;
-            font-size: 0.96em;
-            color: #333;
-        }
-
-        .linkedin-btn {
-            background-color: #0077b5;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 12px;
-            transition: background 0.2s;
-        }
-
-        .linkedin-btn:hover {
-            background-color: #005983;
-        }
-    </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Connect & Network - GradTrack</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .network-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .network-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-primary);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .network-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--bg-card);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+    }
+    .network-info h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      padding-right: 90px; /* Space for avatar */
+    }
+    .network-info p.role {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      padding-right: 90px;
+    }
+    
+    .network-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .network-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    
+    .search-container {
+      background: var(--glass-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+  </style>
 </head>
 <body>
-     <!-- NAVIGATION BAR (copied from jobs.html and updated for active link) -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="index1.html">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="GradTrack Logo" width="30" height="30" />
-        <span class="fw-bold fs-4 ms-2">GradTrack</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fs-6">
-          <li class="nav-item">
-            <a class="nav-link" href="index1.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="quiz.html">Quiz</a>
-          </li>
-          
-          <li class="nav-item">
-            <a class="nav-link" href="guide.html">Guide</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="jobs.html">Jobs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="interview.html">Placement</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " aria-current="page" href="res.html">Resources</a>
-          </li>
-           </li>
-        
-          <li class="nav-item">
-            <a class="nav-link active" href="connect.html">Connect</a>
-          </li>
-        </ul>
-        <div class="ms-lg-3" id="navbarAuth">
-          <!-- Auth buttons inserted by JS -->
+  <div id="navbar-container"></div>
+
+  <div class="main-content">
+    
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Professional Network 🤝</h2>
+        <p class="text-secondary mb-0">Connect with alumni, mentors, and peers in your industry.</p>
+      </div>
+    </div>
+
+    <!-- Search & Filters -->
+    <div class="search-container mb-5">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <input type="text" class="form-control auth-input" placeholder="Search by name, role, or company..." id="searchInput">
+        </div>
+        <div class="col-md-3">
+          <select class="form-select auth-input" id="fieldFilter">
+            <option value="">All Domains</option>
+            <option value="software">Software Engineering</option>
+            <option value="mechanical">Mechanical Engineering</option>
+            <option value="electrical">Electrical Engineering</option>
+            <option value="civil">Civil Engineering</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select auth-input" id="experienceFilter">
+            <option value="">All Experience Levels</option>
+            <option value="0-2">Entry Level (0-2 yrs)</option>
+            <option value="3-5">Mid Level (3-5 yrs)</option>
+            <option value="5+">Senior Level (5+ yrs)</option>
+          </select>
         </div>
       </div>
     </div>
-  </nav>
-   
- 
-    <div class="container">
-        <div class="search-section">
-            <input type="text" class="search-bar" placeholder="Search by name, field, or company..." id="searchInput">
-            <div class="filters">
-                <select class="filter-select" id="fieldFilter">
-                    <option value="">All Fields</option>
-                    <option value="software">Software Engineering</option>
-                    <option value="mechanical">Mechanical Engineering</option>
-                    <option value="electrical">Electrical Engineering</option>
-                    <option value="civil">Civil Engineering</option>
-                </select>
-                <select class="filter-select" id="experienceFilter">
-                    <option value="">All Experience Levels</option>
-                    <option value="0-2">0-2 years</option>
-                    <option value="3-5">3-5 years</option>
-                    <option value="5+">5+ years</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="professionals-grid" id="professionalsGrid">
-            <!-- Professional cards will be added here dynamically -->
-        </div>
+    <!-- Professionals Grid -->
+    <div class="row g-4" id="professionalsGrid">
+        <!-- Professional cards injected via JS -->
     </div>
 
-    <script>
-        function isLoggedIn() {
-    return localStorage.getItem('loggedIn') === 'true';
-  }
+    <!-- Empty State -->
+    <div id="emptyState" class="glass-panel text-center p-5 mt-4 d-none">
+      <h3 class="mb-2">🔍 No professionals found</h3>
+      <p class="text-secondary">Try adjusting your search criteria or filters.</p>
+      <button class="btn btn-outline-custom mt-2" onclick="document.getElementById('searchInput').value=''; document.getElementById('fieldFilter').value=''; document.getElementById('experienceFilter').value=''; filterProfessionals();">Reset Filters</button>
+    </div>
 
-  function renderAuthButtons() {
-    const navbarAuth = document.getElementById('navbarAuth');
-    if (!navbarAuth) return;
-    navbarAuth.innerHTML = '';
-    if (isLoggedIn()) {
-      navbarAuth.innerHTML = `
-        <a href="profile.html" class="btn btn-outline-light me-2">Profile</a>
-        <button class="btn btn-danger" id="logoutBtn">Logout</button>
-      `;
-      const logoutBtn = document.getElementById('logoutBtn');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', function () {
-          localStorage.removeItem('loggedIn');
-          window.location.reload();
-        });
-      }
-    } else {
-      navbarAuth.innerHTML = `
-        <a href="signin.html" class="btn btn-outline-light me-2">Sign In</a>
-        <a href="signup.html" class="btn btn-success">Sign Up</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    const professionals = [
+      { id: 1, name: "John Doe", field: "software", experience: "5+", email: "john.doe@email.com", phone: "+1 234-567-8900", linkedin: "#", image: "https://randomuser.me/api/portraits/men/32.jpg", company: "Tech Corp", role: "Senior Software Engineer" },
+      { id: 2, name: "Priya Sharma", field: "mechanical", experience: "3-5", email: "priya.sharma@email.com", phone: "+91 98765-43210", linkedin: "#", image: "https://randomuser.me/api/portraits/women/44.jpg", company: "AutoMek", role: "Mechanical Design Engineer" },
+      { id: 3, name: "Carlos Alvarez", field: "electrical", experience: "5+", email: "carlos.alvarez@email.com", phone: "+34 123-456-789", linkedin: "#", image: "https://randomuser.me/api/portraits/men/65.jpg", company: "ElectroWorks", role: "Lead Electrical Engineer" },
+      { id: 4, name: "Emily Zhang", field: "civil", experience: "0-2", email: "emily.zhang@email.com", phone: "+86 138-0013-8000", linkedin: "#", image: "https://randomuser.me/api/portraits/women/68.jpg", company: "UrbanBuild", role: "Junior Civil Engineer" },
+      { id: 5, name: "Ahmed El-Sayed", field: "software", experience: "3-5", email: "ahmed.elsayed@email.com", phone: "+20 123-456-7890", linkedin: "#", image: "https://randomuser.me/api/portraits/men/23.jpg", company: "Code Solutions", role: "Full Stack Developer" },
+      { id: 6, name: "Sofia Rossi", field: "mechanical", experience: "5+", email: "sofia.rossi@email.com", phone: "+39 06 1234 5678", linkedin: "#", image: "https://randomuser.me/api/portraits/women/12.jpg", company: "Innovatech", role: "Senior Mechanical Engineer" },
+      { id: 7, name: "David Kim", field: "electrical", experience: "0-2", email: "david.kim@email.com", phone: "+82 10-1234-5678", linkedin: "#", image: "https://randomuser.me/api/portraits/men/75.jpg", company: "PowerGrid", role: "Electrical Engineer" },
+      { id: 8, name: "Laura Müller", field: "civil", experience: "3-5", email: "laura.mueller@email.com", phone: "+49 123-456-7890", linkedin: "#", image: "https://randomuser.me/api/portraits/women/36.jpg", company: "EcoStructures", role: "Civil Project Manager" }
+    ];
+
+    function createProfileCard(prof) {
+      return `
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="network-card">
+            <img src="${prof.image}" alt="${prof.name}" class="network-avatar">
+            <div class="network-info">
+              <h3>${prof.name}</h3>
+              <p class="role">${prof.role} @ <span class="text-primary fw-bold">${prof.company}</span></p>
+              
+              <div class="network-meta">
+                <div class="network-meta-item">
+                  <span class="fs-6">⏱️</span> ${prof.experience} years experience
+                </div>
+                <div class="network-meta-item">
+                  <span class="fs-6">📧</span> ${prof.email}
+                </div>
+                <div class="network-meta-item">
+                  <span class="fs-6">📱</span> ${prof.phone}
+                </div>
+              </div>
+              
+              <a href="${prof.linkedin}" target="_blank" class="btn btn-outline-custom w-100 mt-auto">
+                <span style="color: #0077b5;">🔗</span> Connect on LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
       `;
     }
-  }
 
-  document.addEventListener('DOMContentLoaded', renderAuthButtons);
-        // Sample data - In a real application, this would come from a database
-        const professionals = [
-            {
-                id: 1,
-                name: "John Doe",
-                field: "software",
-                experience: "5+",
-                email: "john.doe@email.com",
-                phone: "+1234567890",
-                linkedin: "https://linkedin.com/in/johndoe",
-                image: "https://randomuser.me/api/portraits/men/32.jpg",
-                company: "Tech Corp",
-                role: "Senior Software Engineer"
-            },
-            {
-                id: 2,
-                name: "Priya Sharma",
-                field: "mechanical",
-                experience: "3-5",
-                email: "priya.sharma@email.com",
-                phone: "+919876543210",
-                linkedin: "https://linkedin.com/in/priyasharma",
-                image: "https://randomuser.me/api/portraits/women/44.jpg",
-                company: "AutoMek",
-                role: "Mechanical Design Engineer"
-            },
-            {
-                id: 3,
-                name: "Carlos Alvarez",
-                field: "electrical",
-                experience: "5+",
-                email: "carlos.alvarez@email.com",
-                phone: "+34123456789",
-                linkedin: "https://linkedin.com/in/carlosalvarez",
-                image: "https://randomuser.me/api/portraits/men/65.jpg",
-                company: "ElectroWorks",
-                role: "Lead Electrical Engineer"
-            },
-            {
-                id: 4,
-                name: "Emily Zhang",
-                field: "civil",
-                experience: "0-2",
-                email: "emily.zhang@email.com",
-                phone: "+8613800138000",
-                linkedin: "https://linkedin.com/in/emilyzhang",
-                image: "https://randomuser.me/api/portraits/women/68.jpg",
-                company: "UrbanBuild",
-                role: "Junior Civil Engineer"
-            },
-            {
-                id: 5,
-                name: "Ahmed El-Sayed",
-                field: "software",
-                experience: "3-5",
-                email: "ahmed.elsayed@email.com",
-                phone: "+201234567890",
-                linkedin: "https://linkedin.com/in/ahmedelsayed",
-                image: "https://randomuser.me/api/portraits/men/23.jpg",
-                company: "Code Solutions",
-                role: "Full Stack Developer"
-            },
-            {
-                id: 6,
-                name: "Sofia Rossi",
-                field: "mechanical",
-                experience: "5+",
-                email: "sofia.rossi@email.com",
-                phone: "+390612345678",
-                linkedin: "https://linkedin.com/in/sofiarossi",
-                image: "https://randomuser.me/api/portraits/women/12.jpg",
-                company: "Innovatech",
-                role: "Senior Mechanical Engineer"
-            },
-            {
-                id: 7,
-                name: "David Kim",
-                field: "electrical",
-                experience: "0-2",
-                email: "david.kim@email.com",
-                phone: "+821012345678",
-                linkedin: "https://linkedin.com/in/davidkim",
-                image: "https://randomuser.me/api/portraits/men/75.jpg",
-                company: "PowerGrid",
-                role: "Electrical Engineer"
-            },
-            {
-                id: 8,
-                name: "Laura Müller",
-                field: "civil",
-                experience: "3-5",
-                email: "laura.mueller@email.com",
-                phone: "+491234567890",
-                linkedin: "https://linkedin.com/in/lauramueller",
-                image: "https://randomuser.me/api/portraits/women/36.jpg",
-                company: "EcoStructures",
-                role: "Civil Project Manager"
-            }
-        ];
+    function filterProfessionals() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const fieldFilter = document.getElementById('fieldFilter').value;
+      const experienceFilter = document.getElementById('experienceFilter').value;
+      const emptyState = document.getElementById('emptyState');
 
-        function createProfileCard(professional) {
-            return `
-                <div class="profile-card">
-                    <img src="${professional.image}" alt="${professional.name}">
-                    <div class="profile-info">
-                        <h3>${professional.name}</h3>
-                        <p>${professional.role} at ${professional.company}</p>
-                        <p>Experience: ${professional.experience} years</p>
-                        <div class="contact-info">
-                            <p>Email: ${professional.email}</p>
-                            <p>Phone: ${professional.phone}</p>
-                            <a href="${professional.linkedin}" class="linkedin-btn" target="_blank">LinkedIn Profile</a>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+      const filtered = professionals.filter(prof => {
+        const matchesSearch = prof.name.toLowerCase().includes(searchTerm) ||
+                              prof.company.toLowerCase().includes(searchTerm) ||
+                              prof.field.toLowerCase().includes(searchTerm) ||
+                              prof.role.toLowerCase().includes(searchTerm);
+        const matchesField = fieldFilter === '' || prof.field === fieldFilter;
+        const matchesExperience = experienceFilter === '' || prof.experience === experienceFilter;
 
-        function filterProfessionals() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const fieldFilter = document.getElementById('fieldFilter').value;
-            const experienceFilter = document.getElementById('experienceFilter').value;
+        return matchesSearch && matchesField && matchesExperience;
+      });
 
-            const filtered = professionals.filter(prof => {
-                const matchesSearch = prof.name.toLowerCase().includes(searchTerm) ||
-                                    prof.company.toLowerCase().includes(searchTerm) ||
-                                    prof.field.toLowerCase().includes(searchTerm);
-                const matchesField = fieldFilter === '' || prof.field === fieldFilter;
-                const matchesExperience = experienceFilter === '' || prof.experience === experienceFilter;
+      const grid = document.getElementById('professionalsGrid');
+      if(filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('d-none');
+      } else {
+        emptyState.classList.add('d-none');
+        grid.innerHTML = filtered.map(prof => createProfileCard(prof)).join('');
+      }
+    }
 
-                return matchesSearch && matchesField && matchesExperience;
-            });
+    document.getElementById('searchInput').addEventListener('input', filterProfessionals);
+    document.getElementById('fieldFilter').addEventListener('change', filterProfessionals);
+    document.getElementById('experienceFilter').addEventListener('change', filterProfessionals);
 
-            displayProfessionals(filtered);
-        }
-
-        function displayProfessionals(professionalsToShow) {
-            const grid = document.getElementById('professionalsGrid');
-            grid.innerHTML = professionalsToShow.map(prof => createProfileCard(prof)).join('');
-        }
-
-        // Event listeners
-        document.getElementById('searchInput').addEventListener('input', filterProfessionals);
-        document.getElementById('fieldFilter').addEventListener('change', filterProfessionals);
-        document.getElementById('experienceFilter').addEventListener('change', filterProfessionals);
-
-        // Initial display
-        displayProfessionals(professionals);
-    </script>
+    // Initial load
+    filterProfessionals();
+  </script>
 </body>
 </html>

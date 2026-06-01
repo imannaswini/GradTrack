@@ -1,96 +1,303 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Apply -Software Engineering Intern </title>
+  <title>Apply - Software Engineering Intern</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    body { background: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
-    .container {
-      max-width: 700px;
-      margin-top: 50px;
-      padding: 30px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    .stepper-container {
+      max-width: 600px;
+      margin: 0 auto 3rem;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
     }
-    .form-label { font-weight: 600; }
-    .btn-primary { border-radius: 7px; font-weight: 500; }
+    .stepper-container::before {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--bg-input);
+      z-index: 0;
+    }
+    .stepper-container::after {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: 0;
+      height: 2px;
+      background: var(--accent-primary);
+      z-index: 1;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+    .stepper-container[data-step="2"]::after { width: 50%; }
+    .stepper-container[data-step="3"]::after { width: 100%; }
+    .stepper-container[data-step="4"]::after { width: 100%; }
+
+    .step-item {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      width: 100px;
+    }
+    .step-circle {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.5rem;
+      font-weight: bold;
+      color: var(--text-secondary);
+      transition: all 0.3s;
+    }
+    .step-item.active .step-circle {
+      border-color: var(--accent-primary);
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent-primary);
+    }
+    .step-item.completed .step-circle {
+      border-color: var(--accent-primary);
+      background: var(--accent-primary);
+      color: white;
+    }
+    
+    .form-step {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    .form-step.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .success-icon {
+      font-size: 5rem;
+      color: var(--success);
+      margin-bottom: 1.5rem;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
   </style>
 </head>
 <body>
-<div class="container">
-  <h2 class="mb-4 text-primary">Apply for Intern</h2>
-  <form id="applicationForm">
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label for="name" class="form-label">Full Name</label>
-        <input type="text" class="form-control" id="name" required>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" required>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label for="phone" class="form-label">Phone Number</label>
-        <input type="tel" class="form-control" id="phone" required>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="dob" class="form-label">Date of Birth</label>
-        <input type="date" class="form-control" id="dob" required>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="college" class="form-label">College Name</label>
-      <input type="text" class="form-control" id="college" required>
-    </div>
-    <div class="mb-3">
-      <label for="resume" class="form-label">Upload Resume</label>
-       <input type="url" class="form-control" id="resume" name="resume_link" placeholder="Link to your resume" />
-    </div>
-    <div class="mb-3">
-      <label for="message" class="form-label">Why are you interested in this role?</label>
-      <textarea class="form-control" id="message" rows="4" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Submit Application</button>
-  </form>
-</div>
- <script>
-  document.getElementById("applicationForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+  <div id="navbar-container"></div>
 
-    const data = {
-      name: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      phone: document.getElementById("phone").value,
-      dob: document.getElementById("dob").value,
-      college: document.getElementById("college").value,
-      resume: document.getElementById("resume").value,
-      message: document.getElementById("message").value,
-    };
-    
-    fetch("http://127.0.0.1:3000/api/apply", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(response => {
-      alert("✅ " + response.message);
-      document.getElementById("applicationForm").reset();
-    })
-    .catch(error => {
-      console.error("Submission error:", error);
-      alert("❌ Something went wrong!");
+  <div class="main-content">
+    <div class="text-center mb-5 pb-3">
+      <h1 class="fw-bold mb-3 text-gradient">Join the Team 🚀</h1>
+      <p class="text-secondary fs-5 mb-0">Apply for the Software Engineering Intern position.</p>
+    </div>
+
+    <!-- Stepper Indicator -->
+    <div class="stepper-container" id="stepperIndicator" data-step="1">
+      <div class="step-item active" id="indicator-1">
+        <div class="step-circle">1</div>
+        <small class="fw-semibold">Personal Info</small>
+      </div>
+      <div class="step-item" id="indicator-2">
+        <div class="step-circle">2</div>
+        <small class="fw-semibold">Education</small>
+      </div>
+      <div class="step-item" id="indicator-3">
+        <div class="step-circle">3</div>
+        <small class="fw-semibold">Final Details</small>
+      </div>
+    </div>
+
+    <!-- Form Container -->
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <div class="glass-panel p-4 p-md-5">
+          <form id="applicationForm">
+            
+            <!-- Step 1 -->
+            <div class="form-step active" id="step-1">
+              <h4 class="fw-bold mb-4">Personal Details</h4>
+              <div class="mb-4">
+                <label for="name" class="form-label text-secondary small fw-bold">FULL NAME</label>
+                <input type="text" class="form-control auth-input" id="name" required placeholder="John Doe">
+              </div>
+              <div class="mb-4">
+                <label for="email" class="form-label text-secondary small fw-bold">EMAIL ADDRESS</label>
+                <input type="email" class="form-control auth-input" id="email" required placeholder="john@example.com">
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <label for="phone" class="form-label text-secondary small fw-bold">PHONE NUMBER</label>
+                  <input type="tel" class="form-control auth-input" id="phone" required placeholder="+1 234 567 8900">
+                </div>
+                <div class="col-md-6 mb-4">
+                  <label for="dob" class="form-label text-secondary small fw-bold">DATE OF BIRTH</label>
+                  <input type="date" class="form-control auth-input" id="dob" required>
+                </div>
+              </div>
+              <div class="text-end mt-4">
+                <button type="button" class="btn btn-primary-custom px-5" onclick="nextStep(2)">Next Step ➔</button>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="form-step" id="step-2">
+              <h4 class="fw-bold mb-4">Education & Resume</h4>
+              <div class="mb-4">
+                <label for="college" class="form-label text-secondary small fw-bold">COLLEGE / UNIVERSITY</label>
+                <input type="text" class="form-control auth-input" id="college" required placeholder="e.g. Stanford University">
+              </div>
+              <div class="mb-4">
+                <label for="resume" class="form-label text-secondary small fw-bold">RESUME LINK (URL)</label>
+                <input type="url" class="form-control auth-input" id="resume" name="resume_link" required placeholder="https://drive.google.com/..." />
+                <small class="text-secondary mt-2 d-block">Please provide a public Google Drive or Dropbox link.</small>
+              </div>
+              <div class="d-flex justify-content-between mt-5">
+                <button type="button" class="btn btn-outline-custom" onclick="prevStep(1)">⬅ Back</button>
+                <button type="button" class="btn btn-primary-custom px-5" onclick="nextStep(3)">Next Step ➔</button>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="form-step" id="step-3">
+              <h4 class="fw-bold mb-4">Final Details</h4>
+              <div class="mb-4">
+                <label for="message" class="form-label text-secondary small fw-bold">WHY ARE YOU INTERESTED IN THIS ROLE?</label>
+                <textarea class="form-control auth-input" id="message" rows="5" required placeholder="Tell us about your passion for software engineering..."></textarea>
+              </div>
+              <div class="d-flex justify-content-between mt-5">
+                <button type="button" class="btn btn-outline-custom" onclick="prevStep(2)">⬅ Back</button>
+                <button type="submit" class="btn btn-primary-custom px-5">Submit Application 🚀</button>
+              </div>
+            </div>
+
+          </form>
+
+          <!-- Step 4 (Success) -->
+          <div class="form-step text-center py-4" id="step-4">
+            <div class="success-icon">✨</div>
+            <h3 class="fw-bold mb-3">Application Submitted!</h3>
+            <p class="text-secondary mb-4">Thank you for applying. We've successfully received your application and our team will review it shortly. Keep an eye on your email inbox for updates!</p>
+            <a href="jobs.html" class="btn btn-primary-custom">Back to Jobs</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    function updateIndicators(step) {
+      document.getElementById('stepperIndicator').setAttribute('data-step', step);
+      for(let i=1; i<=3; i++) {
+        const ind = document.getElementById('indicator-' + i);
+        if (i < step) {
+          ind.classList.add('completed');
+          ind.classList.remove('active');
+          ind.querySelector('.step-circle').innerHTML = '✓';
+        } else if (i === step) {
+          ind.classList.add('active');
+          ind.classList.remove('completed');
+          ind.querySelector('.step-circle').innerHTML = i;
+        } else {
+          ind.classList.remove('active', 'completed');
+          ind.querySelector('.step-circle').innerHTML = i;
+        }
+      }
+    }
+
+    function nextStep(step) {
+      // Validate current step before proceeding
+      const currentStepDiv = document.getElementById(`step-${step - 1}`);
+      const inputs = currentStepDiv.querySelectorAll('input[required], textarea[required]');
+      let valid = true;
+      inputs.forEach(input => {
+        if (!input.checkValidity()) {
+          input.reportValidity();
+          valid = false;
+        }
+      });
+      if (!valid) return;
+
+      document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+      document.getElementById('step-' + step).classList.add('active');
+      updateIndicators(step);
+    }
+
+    function prevStep(step) {
+      document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+      document.getElementById('step-' + step).classList.add('active');
+      updateIndicators(step);
+    }
+
+    document.getElementById("applicationForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...`;
+      submitBtn.disabled = true;
+
+      const data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        dob: document.getElementById("dob").value,
+        college: document.getElementById("college").value,
+        resume: document.getElementById("resume").value,
+        message: document.getElementById("message").value,
+      };
+      
+      fetch("http://127.0.0.1:3000/api/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(async (response) => {
+        if (!response.ok) {
+          const contentType = response.headers.get('content-type');
+          const errorData = contentType && contentType.includes('application/json')
+            ? await response.json()
+            : await response.text();
+          throw new Error(errorData.error || errorData);
+        }
+        return response.json();
+      })
+      .then(response => {
+        window.showToast("Application submitted successfully!", "success");
+        // Hide form, show success screen
+        document.getElementById("applicationForm").style.display = "none";
+        document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+        document.getElementById('step-4').classList.add('active');
+        document.getElementById('stepperIndicator').setAttribute('data-step', 4);
+        // Set all indicators to complete
+        for(let i=1; i<=3; i++) {
+          const ind = document.getElementById('indicator-' + i);
+          ind.classList.add('completed');
+          ind.querySelector('.step-circle').innerHTML = '✓';
+        }
+      })
+      .catch(error => {
+        window.showToast(error.message || "An error occurred during submission.", "error");
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      });
     });
-  });
-</script>
-
+  </script>
 </body>
 </html>

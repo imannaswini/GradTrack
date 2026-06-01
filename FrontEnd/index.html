@@ -3,254 +3,305 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GradTrack - Home</title>
+  <title>Dashboard - GradTrack</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-<style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #fdfbfb, #ebedee);
-    color: #333;
-    overflow-x: hidden;
-  }
-
-  .navbar {
-    background: #1f1f2e;
-  }
-
-  .navbar-brand img {
-    height: 40px;
-    margin-right: 10px;
-    opacity: 0;
-    transform: scale(0.7) rotate(-10deg);
-    animation: logoIn 0.9s 0.2s forwards cubic-bezier(.68,-0.55,.27,1.55);
-  }
-
-  @keyframes logoIn {
-    to {
-      opacity: 1;
-      transform: scale(1) rotate(0deg);
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Custom Dashboard Elements */
+    .dashboard-header {
+      margin-bottom: 2rem;
     }
-  }
-
-  /* Hero Section */
-  .hero {
-    background: linear-gradient(120deg, #5f2c82, #49a09d);
-    color: white;
-    padding: 100px 20px;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero h1, .hero p, .hero a {
-    opacity: 0;
-    transform: translateY(40px);
-    animation: fadeUp 1s forwards cubic-bezier(.68,-0.55,.27,1.55);
-  }
-  .hero h1 { animation-delay: 0.3s; }
-  .hero p { animation-delay: 0.5s; }
-  .hero a:nth-child(1) { animation-delay: 0.7s; }
-  .hero a:nth-child(2) { animation-delay: 0.9s; }
-  .hero a:nth-child(3) { animation-delay: 1.1s; }
-
-  @keyframes fadeUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
+    .score-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent-primary) 78%, var(--bg-input) 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
     }
-  }
-
-  .btn {
-    border-radius: 50px;
-    transition: all 0.3s ease-in-out;
-  }
-
-  .btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(255,255,255,0.3);
-  }
-
-  /* Cards with glass effect */
-  .card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    transition: all 0.35s ease;
-    opacity: 0;
-    transform: translateY(50px) scale(0.97);
-    animation: cardIn 0.9s forwards cubic-bezier(.68,-0.55,.27,1.55);
-  }
-
-  .card:hover {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 16px 32px rgba(80, 0, 150, 0.2);
-  }
-
-  @keyframes cardIn {
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+    .score-circle::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: var(--bg-card);
+      border-radius: 50%;
     }
-  }
-
-  .row .col-md-3:nth-child(1) .card { animation-delay: 0.2s; }
-  .row .col-md-3:nth-child(2) .card { animation-delay: 0.4s; }
-  .row .col-md-3:nth-child(3) .card { animation-delay: 0.6s; }
-  .row .col-md-3:nth-child(4) .card { animation-delay: 0.8s; }
-
-  .card-img-top {
-    height: 80px;
-    object-fit: contain;
-    padding: 1rem;
-    filter: drop-shadow(0 2px 8px #a3e4d7);
-    transition: filter 0.3s ease;
-  }
-
-  .card:hover .card-img-top {
-    filter: drop-shadow(0 6px 24px #7ed6df);
-  }
-
-  /* Footer */
-  footer {
-    background: #1f1f2e;
-    color: #ccc;
-  }
-
-  .footer-link {
-    color: #ccc;
-    text-decoration: none;
-    position: relative;
-    transition: color 0.3s;
-  }
-
-  .footer-link::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; bottom: -2px;
-    height: 2px;
-    background: linear-gradient(90deg, #a18cd1 0%, #fbc2eb 100%);
-    transform: scaleX(0);
-    transition: transform 0.4s ease;
-    transform-origin: left;
-  }
-
-  .footer-link:hover {
-    color: #fff;
-  }
-
-  .footer-link:hover::after {
-    transform: scaleX(1);
-  }
-</style>
-
+    .score-value {
+      position: relative;
+      z-index: 1;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .stat-card {
+      padding: 1.5rem;
+      border-radius: 12px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: transform 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-3px); }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent-primary);
+    }
+    .progress-bar-custom {
+      height: 8px;
+      border-radius: 4px;
+      background: var(--bg-input);
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+    }
+    .company-logo-mini {
+      width: 40px; height: 40px; border-radius: 8px; object-fit: contain; background: white; padding: 5px;
+    }
+  </style>
 </head>
-<body class="bg-light">
+<body>
+  <div id="navbar-container"></div>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="#">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="logo"/>
-        <span class="fw-bold fs-4">GradTrack</span>
-      </a>
-      <div class="ms-auto">
-        <a href="signin.html" class="btn btn-outline-light me-2">Sign In</a>
-        <a href="signup.html" class="btn btn-success">Sign Up</a>
-      </div>
-    </div>
-  </nav>
-
-
-
-
-  <!-- Hero Section -->
-  <section class="hero text-center">
-    <div class="container">
-      <h1>Welcome to GradTrack</h1>
-      <p>Your smart companion for graduation and placement readiness.</p>
-      <div class="mt-4">
-      
-        <a  class="btn btn-outline-light btn-lg mx-2">🧠 Take Quiz</a>
-        <a  class="btn btn-success btn-lg mx-2">💼 Explore Jobs</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Hiring Companies Section -->
-  <section class="container my-5">
-    <h2 class="text-center mb-4">Top Hiring Companies</h2>
-    <div class="row g-4 justify-content-center">
-      <!-- Microsoft -->
-      <div class="col-md-3">
-        <div class="card h-100 shadow-sm text-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="card-img-top" alt="Microsoft Logo">
-          <div class="card-body">
-            <h5 class="card-title">Microsoft</h5>
-            <p class="card-text">Leader in software and cloud services globally.</p>
-          </div>
-        </div>
-      </div>
-      <!-- Google -->
-      <div class="col-md-3">
-        <div class="card h-100 shadow-sm text-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google.png" class="card-img-top" alt="Google Logo">
-          <div class="card-body">
-            <h5 class="card-title">Google</h5>
-            <p class="card-text">AI pioneer and innovator in web technologies.</p>
-          </div>
-        </div>
-      </div>
-      <!-- Infosys -->
-      <div class="col-md-3">
-        <div class="card h-100 shadow-sm text-center">
-          <img src="https://companieslogo.com/img/orig/INFY_BIG-9635f314.png?t=1720244492&download=true.png" class="card-img-top" alt="Infosys Logo">
-          <div class="card-body">
-            <h5 class="card-title">Infosys</h5>
-            <p class="card-text">Global IT and consulting services provider.</p>
-          </div>
-        </div>
-      </div>
-      <!-- TCS -->
-      <div class="col-md-3">
-        <div class="card h-100 shadow-sm text-center">
-          <img src="https://companieslogo.com/img/orig/TCS.NS_BIG-89c50e39.png?t=1740792736&download=true.png" class="card-img-top" alt="TCS Logo">
-          <div class="card-body">
-            <h5 class="card-title">TCS</h5>
-            <p class="card-text">India's top recruiter for tech and consulting roles.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-4">
-    <div class="container">
-      <p class="mb-1">© 2025 GradTrack. All rights reserved.</p>
+  <div class="main-content">
+    <div class="dashboard-header d-flex justify-content-between align-items-center flex-wrap gap-3">
       <div>
-        <a href="about.html" class="footer-link mx-2">About</a>
-        <a href="contact.html" class="footer-link mx-2">Contact</a>
-        <a href="privacy.html" class="footer-link mx-2">Privacy Policy</a>
+        <h2 class="fw-bold mb-1">Welcome back, <span class="text-gradient" id="userNameDisplay">Student</span>! 👋</h2>
+        <p class="text-secondary mb-0">Here is your career progression and readiness overview.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="quiz.html" class="btn btn-outline-custom">Take a Quiz</a>
+        <a href="jobs.html" class="btn btn-primary-custom">Explore Jobs</a>
       </div>
     </div>
-  </footer>
-<script>
-  const navbarAuth = document.getElementById("navbarAuth");
-  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
 
-  if (isLoggedIn) {
-    navbarAuth.innerHTML = `
-      <a href="profile.html" class="btn btn-outline-light">👤 Profile</a>
-    `;
-  } else {
-    navbarAuth.innerHTML = `
-      <a href="signin.html" class="btn btn-outline-light me-2">Sign In</a>
-      <a href="signup.html" class="btn btn-success">Sign Up</a>
-    `;
-  }
-</script>
+    <!-- Top Stats Row -->
+    <div class="row g-4 mb-4">
+      <div class="col-xl-3 col-md-6">
+        <div class="stat-card">
+          <div class="stat-icon">📈</div>
+          <div>
+            <p class="text-secondary small fw-semibold mb-1">Applications</p>
+            <h4 class="fw-bold mb-0" id="applicationsCount">0</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="stat-card">
+          <div class="stat-icon" style="color: var(--success); background: rgba(16,185,129,0.1);">🧠</div>
+          <div>
+            <p class="text-secondary small fw-semibold mb-1">Quizzes Completed</p>
+            <h4 class="fw-bold mb-0" id="quizzesCompleted">0</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="stat-card">
+          <div class="stat-icon" style="color: var(--warning); background: rgba(245,158,11,0.1);">🔥</div>
+          <div>
+            <p class="text-secondary small fw-semibold mb-1">Current Streak</p>
+            <h4 class="fw-bold mb-0">5 Days</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="stat-card">
+          <div class="stat-icon" style="color: var(--accent-secondary); background: rgba(139,92,246,0.1);">⭐</div>
+          <div>
+            <p class="text-secondary small fw-semibold mb-1">Avg Score</p>
+            <h4 class="fw-bold mb-0">86%</h4>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div class="row g-4">
+      <!-- Main Column -->
+      <div class="col-lg-8">
+        
+        <!-- Readiness & Progress -->
+        <div class="glass-panel p-4 mb-4">
+          <div class="row align-items-center">
+            <div class="col-md-4 text-center border-end" style="border-color: var(--border-color) !important;">
+              <h5 class="fw-bold mb-3">Placement Readiness</h5>
+              <div class="score-circle mx-auto mb-2">
+                <span class="score-value"><span id="readinessScore">0</span><span style="font-size:1rem;">%</span></span>
+              </div>
+              <p class="text-secondary small mb-0 mt-2">Top 15% of peers</p>
+            </div>
+            <div class="col-md-8 px-4">
+              <h6 class="fw-bold mb-3">Skill Progress</h6>
+              
+              <div class="mb-3">
+                <div class="d-flex justify-content-between small fw-semibold mb-1">
+                  <span>Data Structures & Algorithms</span><span>85%</span>
+                </div>
+                <div class="progress-bar-custom"><div class="progress-fill" style="width: 85%;"></div></div>
+              </div>
+              
+              <div class="mb-3">
+                <div class="d-flex justify-content-between small fw-semibold mb-1">
+                  <span>Web Development</span><span>90%</span>
+                </div>
+                <div class="progress-bar-custom"><div class="progress-fill" style="width: 90%;"></div></div>
+              </div>
+              
+              <div class="mb-3">
+                <div class="d-flex justify-content-between small fw-semibold mb-1">
+                  <span>Aptitude & Reasoning</span><span>65%</span>
+                </div>
+                <div class="progress-bar-custom"><div class="progress-fill" style="width: 65%; background: var(--warning);"></div></div>
+              </div>
 
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly Progress Tracker -->
+        <div class="glass-panel p-4 mb-4">
+          <h5 class="fw-bold mb-3">Weekly Tracker</h5>
+          <div class="d-flex justify-content-between align-items-center bg-input p-3 rounded" style="background: var(--bg-input);">
+            <div class="text-center">
+              <div class="text-secondary small fw-bold mb-1">MON</div>
+              <div class="rounded-circle bg-success d-flex align-items-center justify-content-center text-white" style="width: 32px; height: 32px;">✓</div>
+            </div>
+            <div class="text-center">
+              <div class="text-secondary small fw-bold mb-1">TUE</div>
+              <div class="rounded-circle bg-success d-flex align-items-center justify-content-center text-white" style="width: 32px; height: 32px;">✓</div>
+            </div>
+            <div class="text-center">
+              <div class="text-secondary small fw-bold mb-1">WED</div>
+              <div class="rounded-circle bg-success d-flex align-items-center justify-content-center text-white" style="width: 32px; height: 32px;">✓</div>
+            </div>
+            <div class="text-center">
+              <div class="text-secondary small fw-bold mb-1">THU</div>
+              <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: var(--accent-primary); color: white;">🔥</div>
+            </div>
+            <div class="text-center opacity-50">
+              <div class="text-secondary small fw-bold mb-1">FRI</div>
+              <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: var(--border-color);">-</div>
+            </div>
+            <div class="text-center opacity-50">
+              <div class="text-secondary small fw-bold mb-1">SAT</div>
+              <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: var(--border-color);">-</div>
+            </div>
+            <div class="text-center opacity-50">
+              <div class="text-secondary small fw-bold mb-1">SUN</div>
+              <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: var(--border-color);">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Side Column -->
+      <div class="col-lg-4">
+        
+        <!-- Recent Quizzes -->
+        <div class="glass-panel p-4 mb-4">
+          <h6 class="fw-bold mb-3 d-flex justify-content-between align-items-center">
+            Recent Quiz Scores <a href="quiz.html" class="small text-accent text-decoration-none" style="color: var(--accent-primary);">View All</a>
+          </h6>
+          
+          <div id="recentQuizzesList">
+            <p class="text-secondary small">Loading...</p>
+          </div>
+        </div>
+
+        <!-- Upcoming Hiring Companies -->
+        <div class="glass-panel p-4">
+          <h6 class="fw-bold mb-3">Upcoming Opportunities</h6>
+          
+          <div class="d-flex align-items-center mb-3">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="company-logo-mini me-3" alt="Microsoft">
+            <div class="flex-grow-1">
+              <p class="fw-semibold mb-0">Microsoft</p>
+              <small class="text-secondary">Software Engineer Intern</small>
+            </div>
+            <a href="apply.html" class="btn btn-sm btn-outline-custom" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;">Apply</a>
+          </div>
+
+          <div class="d-flex align-items-center mb-3">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google.png" class="company-logo-mini me-3" alt="Google">
+            <div class="flex-grow-1">
+              <p class="fw-semibold mb-0">Google</p>
+              <small class="text-secondary">Data Analyst Role</small>
+            </div>
+            <a href="apply.html" class="btn btn-sm btn-outline-custom" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;">Apply</a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      if(!token) {
+        window.location.href = "signin.html";
+        return;
+      }
+
+      const userName = localStorage.getItem("userName") || localStorage.getItem("userEmail").split('@')[0];
+      if(userName) {
+        document.getElementById("userNameDisplay").textContent = userName;
+      }
+
+      try {
+        const res = await fetch("http://127.0.0.1:3000/api/dashboard-stats", {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        
+        if (res.status === 401 || res.status === 403) {
+          localStorage.removeItem("token");
+          window.location.href = "signin.html";
+          return;
+        }
+
+        const data = await res.json();
+        
+        // Update stats
+        document.getElementById("applicationsCount").textContent = data.applicationsCount || 0;
+        document.getElementById("quizzesCompleted").textContent = data.recentQuizzes ? data.recentQuizzes.length : 0;
+        document.getElementById("readinessScore").textContent = data.profileCompletion || 20;
+
+        // Update Recent Quizzes
+        const quizzesList = document.getElementById("recentQuizzesList");
+        if (data.recentQuizzes && data.recentQuizzes.length > 0) {
+          quizzesList.innerHTML = data.recentQuizzes.map(quiz => `
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom" style="border-color: var(--border-color) !important;">
+              <div>
+                <p class="fw-semibold mb-0">${quiz.domain_name}</p>
+                <small class="text-secondary">Recent Attempt</small>
+              </div>
+              <span class="badge bg-success bg-opacity-25 text-success">${quiz.score}/${quiz.total_questions}</span>
+            </div>
+          `).join('');
+        } else {
+          quizzesList.innerHTML = '<p class="text-secondary small">No recent quizzes found. Start practicing!</p>';
+        }
+        
+      } catch(err) {
+        console.error("Error loading dashboard stats", err);
+      }
+    });
+  </script>
 </body>
 </html>
