@@ -1,231 +1,66 @@
-
-
-```markdown
-# 🎓 GradTrack – Student Skill Development Platform
-
-GradTrack is a **full-stack career and graduation tracking platform** designed to help students organize their learning journey, track skill development, and discover career opportunities.
-
-The platform allows students to **practice domain-based quizzes, monitor career progress, access learning resources, and apply for opportunities**, all in one place.
-
----
-
-# 🚀 Key Features
-
-- 👤 User registration and profile management  
-- 🧠 Domain-based quizzes with score tracking  
-- 📊 Career progress checklist for students  
-- 💼 Job / course application submission system  
-- 📚 Career guidance and interview preparation resources  
-- 🔎 Centralized platform for student skill development  
-
----
-
-# 🛠 Tech Stack
-
-| Layer | Technology |
-|------|------------|
-| Frontend | HTML, CSS, JavaScript |
-| Backend | Node.js, Express.js |
-| Database | MySQL |
-| Tools | Git, GitHub, VS Code |
-
----
-
-# 📂 Project Structure
-
-```
-
-GradTrack
-│
-├── BackEnd
-│   ├── index.js
-│   ├── package.json
-│   └── routes
-│
-├── FrontEnd
-│   ├── index.html
-│   ├── signup.html
-│   ├── signin.html
-│   ├── dashboard.html
-│   ├── quiz.html
-│   ├── apply.html
-│   └── scripts
-│
-├── screenshots
-└── README.md
-
-```
-## 📸 Screenshots
-
-### Dashboard
-<img src="https://raw.githubusercontent.com/imannaswini/GradTrack/main/screenshots/dashboard.png" width="900"/>
-
-### Quiz Page
-![Quiz Page](https://raw.githubusercontent.com/imannaswini/GradTrack/main/screenshots/quiz-page.png)
-
-# 📖 Overview
-
-GradTrack consists of two main components:
-
-| Component    | Technology              | Role                                                                                   |
-| :----------- | :---------------------- | :------------------------------------------------------------------------------------- |
-| **Backend**  | Node.js, Express, MySQL | Handles API requests, manages user data, processes quiz scores, and stores submissions |
-| **Frontend** | HTML, CSS, JavaScript   | Provides the user interface for registration, quizzes, resources, and applications     |
-
----
-
-# ⚙️ Backend Setup and Configuration
-
-The backend is built using **Node.js and Express** and manages all data operations.
-
-## Backend Tech Stack
-
-* **Language:** JavaScript (Node.js)
-* **Framework:** Express
-* **Database:** MySQL
-* **Dependencies:** cors, body-parser
-* **Development Tool:** nodemon (for auto-restart during development)
-
----
-
-# 🗄 Database Configuration
-
-1. Ensure a **MySQL server** is running.
-
-2. Create a database:
-
-```
-gradtrack
-```
-
-3. Configure the database connection inside `BackEnd/index.js`.
-
-Example configuration:
-
-```
-Host: localhost
-User: root
-Password: YOUR_PASSWORD
-Database: gradtrack
-```
-
-4. Required database tables:
-
-* users
-* quiz_scores
-* applications
-* answers
-* progress_checklist
-
-These tables store user data, quiz performance, application forms, and progress tracking information.
-
----
-
-# ⚙️ Installation and Setup
-
-Clone the repository:
-
-```
-git clone https://github.com/imannaswini/GradTrack.git
-```
-
-Navigate to backend directory:
-
-```
-cd GradTrack/BackEnd
-```
-
-Install dependencies:
-
-```
-npm install
-```
-
-Start the server:
-
-```
-nodemon index.js
-```
-
-Server will run at:
-
-```
-http://127.0.0.1:3000
-```
-
----
-
-# 🔗 API Endpoints
-
-All APIs run on:
-
-```
-http://127.0.0.1:3000
-```
-
-| Method | Endpoint     | Description                         |
-| ------ | ------------ | ----------------------------------- |
-| POST   | /api/signup  | Register a new user                 |
-| POST   | /submit-quiz | Save quiz score                     |
-| POST   | /api/apply   | Submit job/course application       |
-| POST   | /api/submit  | Save progress checklist and answers |
-
----
-
-# 🖼 Frontend Structure
-
-The frontend consists of **multiple static HTML pages** connected with JavaScript and backend APIs.
-
-### Key Pages
-
-* `index.html` – Landing page
-* `signup.html` – User registration
-* `signin.html` – User login
-* `dashboard.html` – User dashboard
-* `quiz.html` – Quiz interface
-* `apply.html` – Job/course application form
-* `jobs.html` – Job listings
-* `guide.html` – Career guidance resources
-* `interview.html` – Interview preparation content
-* `connect.html` – Networking/contact page
-* `res.html` – Resume resources
-
----
-
-# 🔄 Frontend API Communication Example
-
-Example request for user signup:
-
-```javascript
-fetch('http://127.0.0.1:3000/api/signup', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ name, email, password })
-})
-.then(res => res.json())
-.then(data => console.log(data))
-.catch(err => console.error(err));
-```
-
----
-
-# 🔮 Future Improvements
-
-* JWT authentication system
-* AI-based career recommendation engine
-* Student progress analytics dashboard
-* Resume analyzer integration
-* Cloud deployment (AWS / Vercel)
-
----
-
-# 👩‍💻 Author
-
-**Mannaswini P A**
-
-GitHub: [https://github.com/imannaswini](https://github.com/imannaswini)
-LinkedIn: [https://www.linkedin.com/in/mannaswini](https://www.linkedin.com/in/mannaswini)
-
-
-
-```
+# GradTrack 🎓
+
+GradTrack is a comprehensive career progression and readiness platform designed to help students and recent graduates track job applications, take practice quizzes, monitor skill progress, and prepare for interviews.
+
+## ✨ Features
+
+- **Dashboard**: Get a personalized overview of your placement readiness, skill progress, and recent activity.
+- **Authentication**: Secure user signup, signin, and JWT-based session management.
+- **Profile Management**: Update your skills, portfolio links (GitHub, LinkedIn), and track your profile completion.
+- **Job Applications**: Explore upcoming hiring opportunities and submit job applications directly through the platform.
+- **Quizzes & Assessments**: Take practice quizzes (Data Structures, Web Development, Aptitude) and track your scores.
+- **Modern UI**: A responsive, glassmorphism-inspired UI built with Bootstrap 5 and custom CSS.
+
+## 🛠️ Technology Stack
+
+- **Frontend**: HTML5, CSS3, JavaScript (Vanilla), Bootstrap 5.3
+- **Backend**: Node.js, Express.js
+- **Database**: MySQL
+- **Authentication**: JSON Web Tokens (JWT)
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed on your machine:
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [MySQL Server](https://dev.mysql.com/downloads/mysql/)
+
+## 🚀 Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/imannaswini/GradTrack.git
+   cd GradTrack
+   ```
+
+2. **Database Setup:**
+   - Open your MySQL client or use the provided `localhost.session.sql` file (if available) to set up the database schema.
+   - Create a database named `gradtrack`.
+   - Update the database credentials (username and password) in `BackEnd/index.js` to match your local MySQL configuration.
+
+3. **Backend Setup:**
+   - Navigate to the Backend folder:
+     ```bash
+     cd BackEnd
+     ```
+   - Install the dependencies:
+     ```bash
+     npm install
+     ```
+   - Start the backend server:
+     ```bash
+     node index.js
+     ```
+   - The server will run on `http://127.0.0.1:3000`.
+
+4. **Frontend Setup:**
+   - Open the `FrontEnd` directory.
+   - Serve the HTML files using an extension like Live Server in VS Code, or simply open `index.html` (or `signin.html`) in your web browser.
+
+## 📁 Project Structure
+
+- `FrontEnd/`: Contains all HTML, CSS, and vanilla JS for the client-side UI.
+- `BackEnd/`: Contains the Express.js server (`index.js`), package configuration, and API routes.
+
+## 📄 License
+
+This project is licensed under the ISC License.
