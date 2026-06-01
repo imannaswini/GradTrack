@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Forgot Password - GradTrack</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .auth-input {
+      background-color: var(--bg-input) !important;
+      border: 1px solid var(--border-color) !important;
+      color: var(--text-primary) !important;
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+    }
+    .auth-input:focus {
+      border-color: var(--accent-primary) !important;
+      box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+    }
+    .lock-icon-container {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      border: 2px solid rgba(59, 130, 246, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Dynamic Navbar -->
+  <div id="navbar-container"></div>
+
+  <div class="main-content d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 100px);">
+    <div class="glass-panel p-5 w-100 hover-lift" style="max-width: 440px; animation: fadeUp 0.6s ease forwards;">
+      
+      <div class="text-center mb-4">
+        <div class="lock-icon-container">
+          <span style="font-size: 2rem; color: var(--accent-primary);">🔒</span>
+        </div>
+        <h3 class="fw-bold mb-2">Forgot Password?</h3>
+        <p class="text-secondary small px-3">No worries, we'll send you reset instructions. Please enter the email associated with your account.</p>
+      </div>
+      
+      <form id="forgotForm">
+        <div class="mb-4">
+          <label for="email" class="form-label text-secondary small fw-bold">EMAIL ADDRESS</label>
+          <input type="email" class="form-control auth-input" id="email" placeholder="name@example.com" required />
+        </div>
+        <button type="submit" class="btn btn-primary-custom w-100 mb-4 py-2" style="font-weight: 600; font-size: 1.05rem;">Reset Password</button>
+      </form>
+
+      <div class="text-center">
+        <a href="signin.html" class="text-decoration-none text-secondary fw-semibold small d-inline-flex align-items-center gap-2 hover-text-primary" style="transition: color 0.2s;">
+          <span>←</span> Back to Sign In
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("forgotForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const btn = e.target.querySelector('button[type="submit"]');
+      
+      btn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...`;
+      btn.disabled = true;
+
+      try {
+        const res = await fetch("http://localhost:3000/api/forgot-password", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+        btn.innerHTML = `Reset Password`;
+        btn.disabled = false;
+        
+        if (res.ok) {
+          window.showToast(data.message || "Reset link sent successfully!", "success");
+        } else {
+          window.showToast(data.message || "Failed to send reset link.", "error");
+        }
+      } catch (error) {
+        btn.innerHTML = `Reset Password`;
+        btn.disabled = false;
+        window.showToast("Connection error. Please try again later.", "error");
+      }
+    });
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
